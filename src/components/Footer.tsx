@@ -1,10 +1,7 @@
 import * as React from 'react';
 
-interface Props {
-}
-
-export default function (props: Props) {
-    let year = new Date().getFullYear()
+export default function () {
+    let year = new Date().getFullYear();
     return (
         <footer className="footer">
             <div className="container">

@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 interface Props {
-    isHiddenDesktop?: boolean
+    isHiddenDesktop?: boolean;
 }
 
 export default function SignOut(props: Props) {
@@ -14,4 +14,3 @@ export default function SignOut(props: Props) {
         </a>
     );
 }
-

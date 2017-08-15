@@ -1,6 +1,5 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
-package-lock.json
 # dependencies
 /node_modules
 
@@ -22,3 +21,4 @@ yarn-debug.log*
 yarn-error.log*
 
 .idea
+/package-lock.json
