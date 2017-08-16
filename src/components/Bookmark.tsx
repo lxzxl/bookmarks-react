@@ -4,7 +4,7 @@ export default class Bookmark extends React.Component<{}, {}> {
     render() {
         return (
             <div className="column is-one-third-tablet is-one-quarter-desktop">
-                <a className="button is-primary">
+                <a className="button is-primary Bookmark">
                     <span className="icon"><i className="fa fa-twitter"/></span>
                     <span>Twitter</span>
                 </a>

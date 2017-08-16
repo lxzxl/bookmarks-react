@@ -8,7 +8,7 @@ export default function () {
                 <div className="content has-text-centered">
                     <p>
                         © {year} Copyright lxzxl
-                        <a className="icon" href="https://github.com/lxzxl/bookmars-react">
+                        <a className="icon" href="https://github.com/lxzxl/bookmarks-react" target="_blank">
                         <i className="fa fa-github"/>
                     </a>
                     </p>
