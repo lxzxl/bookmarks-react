@@ -6,12 +6,10 @@ interface Props {
 
 export default function (props: Props) {
     return (
-        <div className="container">
+        <div className="Header container">
             <nav className="navbar">
                 <div className="navbar-brand">
-                    <a className="navbar-item is-size-3" href="/">
-                        Bookmarks
-                    </a>
+                    <span className="navbar-item is-size-3">Bookmarks</span>
                     <SignOut isHiddenDesktop={true}/>
                 </div>
                 <div className="navbar-menu">

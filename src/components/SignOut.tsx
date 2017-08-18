@@ -4,13 +4,15 @@ interface Props {
     isHiddenDesktop?: boolean;
 }
 
-export default function SignOut(props: Props) {
+export default function SignOut({isHiddenDesktop}: Props) {
     return (
-        <a className={`navbar-item ${props.isHiddenDesktop ? 'is-hidden-desktop' : ''}`}>
-                <span className="icon is-small">
+        <div className={`navbar-item ${isHiddenDesktop ? 'is-hidden-desktop' : ''}`}>
+            <a className="button is-white">
+                {isHiddenDesktop || <span>Sign Out</span>}
+                <span className="icon">
                     <i className="fa fa-sign-out"/>
                 </span>
-            <span>SignOut</span>
-        </a>
+            </a>
+        </div>
     );
 }

@@ -1,5 +1,11 @@
 import * as React from 'react';
-import Bookmark from '../components/Bookmark';
+import Actions from '../components/Actions';
+import Bookmark from './Bookmark';
+
+interface Link {
+    url: string;
+    name: string;
+}
 
 interface Props {
     title: string;
@@ -7,13 +13,15 @@ interface Props {
 
 interface State {
     isEditMode: boolean;
+    bookmarks: Link[];
 }
 
 export default class Collection extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
-            isEditMode: false
+            isEditMode: false,
+            bookmarks: [],
         };
     }
 
@@ -27,25 +35,23 @@ export default class Collection extends React.Component<Props, State> {
         let isEditMode = this.state.isEditMode;
         return (
             <div className="box Collection">
-                <div className="level">
+                <div className="level is-mobile">
                     <div className="level-left">
-                        <p className="title is-4">{this.props.title}</p>
+                        <p className="title is-4">
+                            <span className="icon"><i className="fa fa-bookmark"/></span>
+                            <span>{this.props.title}</span>
+                        </p>
                     </div>
                     <div className="level-right edit">
-                        {isEditMode ?
-                            <span className="icon is-medium" onClick={this.handleClick}>
-                                <i className="fa fa-cog"/></span>
-                            : <span className="icon is-medium" onClick={this.handleClick}>
-                                <i className="fa fa-close"/></span>
-                        }
+                        <Actions isEditMode={isEditMode} handleClick={this.handleClick}/>
                     </div>
                 </div>
                 <div className="content">
-                    <div className="columns is-multiline">
-                        <Bookmark/>
-                        <Bookmark/>
-                        <Bookmark/>
-                        <Bookmark/>
+                    <div className="columns is-mobile is-multiline">
+                        <Bookmark name={'Twitter1'} url={'Twitter'}/>
+                        <Bookmark name={'Twitter2'} url={'Twitter'}/>
+                        <Bookmark name={'Twitter3'} url={'Twitter'}/>
+                        <Bookmark name={'Twitter4'} url={'Twitter'}/>
                     </div>
                 </div>
             </div>
