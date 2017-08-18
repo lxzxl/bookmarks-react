@@ -4,6 +4,7 @@ import Bookmark from '../components/Bookmark';
 interface Props {
     title: string;
 }
+
 interface State {
     isEditMode: boolean;
 }
@@ -18,7 +19,7 @@ export default class Collection extends React.Component<Props, State> {
 
     handleClick = () => {
         this.setState({
-            isEditMode:!this.state.isEditMode
+            isEditMode: !this.state.isEditMode
         });
     }
 
@@ -30,10 +31,12 @@ export default class Collection extends React.Component<Props, State> {
                     <div className="level-left">
                         <p className="title is-4">{this.props.title}</p>
                     </div>
-                    <div className="level-right">
+                    <div className="level-right edit">
                         {isEditMode ?
-                            <span className="icon is-medium" onClick={this.handleClick}><i className="fa fa-cog"/></span>
-                            : <span className="icon is-medium" onClick={this.handleClick}><i className="fa fa-close"/></span>
+                            <span className="icon is-medium" onClick={this.handleClick}>
+                                <i className="fa fa-cog"/></span>
+                            : <span className="icon is-medium" onClick={this.handleClick}>
+                                <i className="fa fa-close"/></span>
                         }
                     </div>
                 </div>

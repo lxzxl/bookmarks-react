@@ -1,11 +1,6 @@
-.App {
-}
-
-.main {
-    height: 100%;
-}
-
 .Bookmark {
-    width: 100%;
-    max-width: 200px;
-}
+  width: 100%;
+  max-width: 200px; }
+
+.Main {
+  height: 100%; }
