@@ -1,12 +1,32 @@
-.bookmark{
-  justify-content: center;
-}
-
-.link-wrapper{
-  width: 100%;
-}
-
-.link {
-  width: 100%;
-  max-width: 200px;
+.Bookmark {
+  .wrapper {
+    position: relative;
+    display: flex;
+    justify-content: center;
+  }
+  .field {
+    width: 100%;
+    max-width: 200px;
+  }
+  .button {
+    width: 100%;
+  }
+  .bookmark-link {
+    &:hover {
+      .actions {
+        opacity: 1;
+        pointer-events: all;
+      }
+    }
+    .actions {
+      opacity: 0;
+      transition: opacity .5s;
+      pointer-events: none;
+      position: absolute;
+    }
+  }
+  .edit, .remove {
+    width: 50%;
+    max-width: 100px;
+  }
 }

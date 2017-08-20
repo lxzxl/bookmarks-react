@@ -48,10 +48,10 @@ export default class Collection extends React.Component<Props, State> {
                 </div>
                 <div className="content">
                     <div className="columns is-mobile is-multiline">
-                        <Bookmark name={'Twitter1'} url={'Twitter'}/>
-                        <Bookmark name={'Twitter2'} url={'Twitter'}/>
-                        <Bookmark name={'Twitter3'} url={'Twitter'}/>
-                        <Bookmark name={'Twitter4'} url={'Twitter'}/>
+                        <Bookmark name={'Twitter1'} url={'Twitter'} isEditMode={isEditMode}/>
+                        <Bookmark name={'Twitter2'} url={'Twitter'} isEditMode={isEditMode}/>
+                        <Bookmark name={'Twitter3'} url={'Twitter'} isEditMode={isEditMode}/>
+                        <Bookmark name={'Twitter4'} url={'Twitter'} isEditMode={isEditMode}/>
                     </div>
                 </div>
             </div>

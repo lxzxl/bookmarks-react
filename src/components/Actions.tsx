@@ -9,23 +9,19 @@ export default function ({isEditMode = false, handleClick}: Props) {
     return (
         <div className="Actions field is-grouped">
             {!isEditMode ?
-                <a className="button is-white">
-                    <span className="icon" onClick={handleClick}><i className="fa fa-cog"/></span>
+                <a className="button is-white" onClick={handleClick}>
+                    <span className="icon"><i className="fa fa-cog"/></span>
                 </a>
                 :
                 <div className="field is-grouped">
-                    <a className="button is-white">
-                        <span className="icon has-text-success" onClick={handleClick}>
-                            <i className="fa fa-floppy-o"/>
-                        </span>
+                    <a className="button is-white" onClick={handleClick}>
+                        <span className="icon has-text-success"><i className="fa fa-floppy-o"/></span>
                     </a>
-                    <a className="button is-white">
-                        <span className="icon has-text-danger" onClick={handleClick}>
-                            <i className="fa fa-trash"/>
-                        </span>
+                    <a className="button is-white" onClick={handleClick}>
+                        <span className="icon has-text-danger"><i className="fa fa-trash"/></span>
                     </a>
-                    <a className="button is-white">
-                        <span className="icon" onClick={handleClick}><i className="fa fa-close"/></span>
+                    <a className="button is-white" onClick={handleClick}>
+                        <span className="icon"><i className="fa fa-close"/></span>
                     </a>
                 </div>
             }
