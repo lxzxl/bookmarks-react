@@ -35,7 +35,7 @@ export default class Bookmark extends React.Component<Props, State> {
         super(props);
         this.state = {
             isShowAction: false
-        }
+        };
     }
 
     handleClick = (e: React.SyntheticEvent<EventTarget>) => {
