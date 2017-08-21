@@ -12,8 +12,20 @@ class App extends React.Component<{}, State> {
     constructor(props: {}) {
         super(props);
         this.state = {
-            isLogin: false
+            isLogin: true
         };
+    }
+
+    handleLogin = () => {
+        this.setState({
+            isLogin: true
+        });
+    }
+
+    handleLogout = () => {
+        this.setState({
+            isLogin: false
+        });
     }
 
     render() {
@@ -21,13 +33,13 @@ class App extends React.Component<{}, State> {
         return isLogin ?
             (
                 <div className="App">
-                    <Header/>
+                    <Header doLogout={this.handleLogout}/>
                     <Main/>
                     <Footer/>
                 </div>
             )
             :
-            (<Login/>);
+            (<Login doLogin={this.handleLogin}/>);
     }
 }
 
