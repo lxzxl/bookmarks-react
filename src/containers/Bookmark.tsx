@@ -1,9 +1,23 @@
 import * as React from 'react';
+import {createConfirm} from '../components/Confirm';
 
 interface ActionProps {
 }
 
 function Action(props: ActionProps) {
+    const remove = () => {
+        createConfirm({
+            title: 'test',
+            message: 'test',
+            onConfirm() {
+                console.log('confirm');
+            },
+            onCancel() {
+                console.log('cancel');
+            }
+        });
+    };
+
     return (
         <div className="actions field has-addons">
             <div className="edit control">
@@ -12,7 +26,7 @@ function Action(props: ActionProps) {
                 </a>
             </div>
             <div className="remove control">
-                <a className="button is-danger">
+                <a className="button is-danger" onClick={remove}>
                     <span className="icon"><i className="fa fa-trash"/></span>
                 </a>
             </div>
