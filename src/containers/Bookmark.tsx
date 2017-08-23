@@ -7,8 +7,7 @@ interface ActionProps {
 function Action(props: ActionProps) {
     const remove = () => {
         createConfirm({
-            title: 'test',
-            message: 'test',
+            message: 'Are you sure to remove this bookmark?',
             onConfirm() {
                 console.log('confirm');
             },

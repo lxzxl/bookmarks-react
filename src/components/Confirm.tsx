@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
 interface Props {
-    title: string;
+    title?: string;
     message: string;
     onConfirm(): void;
     onCancel(): void;
@@ -27,22 +27,28 @@ export class Confirm extends React.Component<Props, {}> {
     }
 
     render() {
-        const {title, message} = this.props;
+        const {title = 'Confirm', message} = this.props;
+
         return (
             <div className="modal is-active">
                 <div className="modal-background"/>
-                <div className="modal-card">
-                    <header className="modal-card-head">
-                        <p className="modal-card-title">{title}</p>
-                        <button className="delete" aria-label="close"/>
-                    </header>
-                    <section className="modal-card-body">
-                        {message}
-                    </section>
-                    <footer className="modal-card-foot">
-                        <button className="button is-success" onClick={this.clickConfirm}>Yes</button>
-                        <button className="button" onClick={this.clickCancel}>Cancel</button>
-                    </footer>
+                <div className="modal-content">
+                    <div className="card">
+                        <header className="card-header">
+                            <span className="card-header-title">
+                                {title}
+                            </span>
+                        </header>
+                        <div className="card-content">
+                            <div className="content">
+                                {message}
+                            </div>
+                        </div>
+                        <footer className="card-footer">
+                            <a className="card-footer-item has-text-success" onClick={this.clickConfirm}>Yes</a>
+                            <a className="card-footer-item has-text-dark" onClick={this.clickCancel}>Cancel</a>
+                        </footer>
+                    </div>
                 </div>
             </div>
         );
