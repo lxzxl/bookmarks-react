@@ -1,15 +1,16 @@
 import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 
 interface Props {
     onSave(): void;
     onCancel(): void;
 }
 
-export default class BookmarkModal extends React.Component<Props, {}> {
+export class BookmarkModal extends React.Component<Props, {}> {
     render() {
         const {onSave, onCancel} = this.props;
         return (
-            <div className="modal is-active">
+            <div className="bookmark modal is-active">
                 <div className="modal-background"/>
                 <div className="modal-content">
                     <div className="card">
@@ -32,4 +33,12 @@ export default class BookmarkModal extends React.Component<Props, {}> {
             </div>
         );
     }
+}
+
+export function createBookmarkModal(options: Props) {
+    document.body.children[0].classList.add('bookmark-modal');
+    const divTarget = document.createElement('div');
+    divTarget.id = 'react-bookmark-modal';
+    document.body.appendChild(divTarget);
+    ReactDOM.render(<BookmarkModal {...options} />, divTarget);
 }

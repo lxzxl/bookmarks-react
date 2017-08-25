@@ -55,7 +55,7 @@ export class Confirm extends React.Component<Props, {}> {
     }
 }
 
-export function createConfirm(options: Props) {
+export function showConfirm(options: Props) {
     document.body.children[0].classList.add('react-confirm');
     const divTarget = document.createElement('div');
     divTarget.id = 'react-confirm-confirm';

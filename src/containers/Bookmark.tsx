@@ -1,15 +1,26 @@
 import * as React from 'react';
-import {createConfirm} from '../components/Confirm';
+import {showConfirm} from '../components/Confirm';
+import {createBookmarkModal} from './BookmarkModal';
 
 interface ActionProps {
 }
 
 function Action(props: ActionProps) {
     const remove = () => {
-        createConfirm({
+        showConfirm({
             message: 'Are you sure to remove this bookmark?',
             onConfirm() {
                 console.log('confirm');
+            },
+            onCancel() {
+                console.log('cancel');
+            }
+        });
+    };
+    const edit = () => {
+        createBookmarkModal({
+            onSave() {
+                console.log('save');
             },
             onCancel() {
                 console.log('cancel');
@@ -20,7 +31,7 @@ function Action(props: ActionProps) {
     return (
         <div className="actions field has-addons">
             <div className="edit control">
-                <a className=" button is-info">
+                <a className=" button is-info" onClick={edit}>
                     <span className="icon"><i className="fa fa-pencil"/></span>
                 </a>
             </div>
