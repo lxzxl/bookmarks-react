@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import * as Modal from '../components/Modal';
 
 interface Props {
     title?: string;
@@ -9,12 +10,12 @@ interface Props {
 }
 
 export class Confirm extends React.Component<Props, {}> {
-    clickConfirm = () => {
+    onConfirm = () => {
         this.props.onConfirm();
         this.close();
     }
 
-    clickCancel = () => {
+    onCancel = () => {
         this.props.onCancel();
         this.close();
     }
@@ -24,33 +25,16 @@ export class Confirm extends React.Component<Props, {}> {
         if (target && target.parentNode) {
             target.parentNode.removeChild(target);
         }
+        document.body.children[0].classList.remove('react-confirm');
     }
 
     render() {
-        const {title = 'Confirm', message} = this.props;
+        const {title = 'Confirm', children} = this.props;
 
         return (
-            <div className="modal is-active">
-                <div className="modal-background"/>
-                <div className="modal-content">
-                    <div className="card">
-                        <header className="card-header">
-                            <span className="card-header-title">
-                                {title}
-                            </span>
-                        </header>
-                        <div className="card-content">
-                            <div className="content">
-                                {message}
-                            </div>
-                        </div>
-                        <footer className="card-footer">
-                            <a className="card-footer-item has-text-success" onClick={this.clickConfirm}>Yes</a>
-                            <a className="card-footer-item has-text-dark" onClick={this.clickCancel}>Cancel</a>
-                        </footer>
-                    </div>
-                </div>
-            </div>
+            <Modal.Container title={title} onSave={this.onConfirm} onCancel={this.onCancel}>
+                {children}
+            </Modal.Container>
         );
     }
 }
@@ -60,5 +44,5 @@ export function showConfirm(options: Props) {
     const divTarget = document.createElement('div');
     divTarget.id = 'react-confirm-confirm';
     document.body.appendChild(divTarget);
-    ReactDOM.render(<Confirm {...options} />, divTarget);
+    ReactDOM.render(<Confirm {...options} >{options.message}</Confirm>, divTarget);
 }
