@@ -10,29 +10,11 @@ interface Props {
 }
 
 export class Confirm extends React.Component<Props, {}> {
-    onConfirm = () => {
-        this.props.onConfirm();
-        this.close();
-    }
-
-    onCancel = () => {
-        this.props.onCancel();
-        this.close();
-    }
-
-    close = () => {
-        const target = document.getElementById('react-confirm-confirm');
-        if (target && target.parentNode) {
-            target.parentNode.removeChild(target);
-        }
-        document.body.children[0].classList.remove('react-confirm');
-    }
-
     render() {
-        const {title = 'Confirm', children} = this.props;
+        const {title = 'Confirm', onConfirm, onCancel, children} = this.props;
 
         return (
-            <Modal.Container title={title} onSave={this.onConfirm} onCancel={this.onCancel}>
+            <Modal.Container title={title} onSave={onConfirm} onCancel={onCancel}>
                 {children}
             </Modal.Container>
         );

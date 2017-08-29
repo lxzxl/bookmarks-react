@@ -56,9 +56,27 @@ interface Props {
     hideFooter?: true;
     onSave?: () => void;
     onCancel?: () => void;
+    autoClose?: false;
 }
 
 export class Container extends React.Component<Props, {}> {
+    onSave = () => {
+        if (this.props.onSave) {
+            this.props.onSave();
+        }
+        if (this.props.autoClose) {
+            this.close();
+        }
+    }
+
+    onCancel = () => {
+        if (this.props.onCancel) {
+            this.props.onCancel();
+        }
+        if (this.props.autoClose) {
+            this.close();
+        }
+    }
     close = () => {
         const target = document.getElementById('react-modal');
         if (target && target.parentNode) {

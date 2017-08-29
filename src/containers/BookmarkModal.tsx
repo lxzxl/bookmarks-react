@@ -8,26 +8,10 @@ interface Props {
 }
 
 export class BookmarkModal extends React.Component<Props, {}> {
-    onSave = () => {
-        this.props.onSave();
-        this.close();
-    }
-    onCancel = () => {
-        this.props.onCancel();
-        this.close();
-    }
-
-    close = () => {
-        const target = document.getElementById('react-modal-bookmark');
-        if (target && target.parentNode) {
-            target.parentNode.removeChild(target);
-        }
-        document.body.children[0].classList.remove('bookmark-modal');
-    }
-
     render() {
+        const {onSave, onCancel} = this.props;
         return (
-            <Modal.Container title="Edit" classNames="bookmark" onSave={this.onSave} onCancel={this.onCancel}>
+            <Modal.Container title="Edit" classNames="bookmark" onSave={onSave} onCancel={onCancel}>
                 <div className="field is-horizontal">
                     <div className="field-label is-normal">
                         <label className="label">Name</label>
