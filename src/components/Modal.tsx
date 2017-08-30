@@ -43,50 +43,49 @@ export class Footer extends React.Component<FooterProps, {}> {
     render() {
         return (
             <footer className="card-footer">
-                <a className="card-footer-item has-text-success" onClick={this.onSave}>Yes</a>
+                <a className="card-footer-item has-text-success" onClick={this.onSave}>OK</a>
                 <a className="card-footer-item has-text-dark" onClick={this.onCancel}>Cancel</a>
             </footer>
         );
     }
 }
 
-interface Props {
+export interface Props {
     title?: string;
     classNames?: string;
     hideFooter?: true;
     onSave?: () => void;
     onCancel?: () => void;
+    onClose?: () => void;
     autoClose?: false;
 }
 
 export class Container extends React.Component<Props, {}> {
     onSave = () => {
-        if (this.props.onSave) {
-            this.props.onSave();
+        const {onSave} = this.props;
+        if (onSave) {
+            onSave();
         }
-        if (this.props.autoClose) {
-            this.close();
-        }
+        this.close();
     }
 
     onCancel = () => {
-        if (this.props.onCancel) {
-            this.props.onCancel();
+        const {onCancel} = this.props;
+        if (onCancel) {
+            onCancel();
         }
-        if (this.props.autoClose) {
-            this.close();
-        }
+        this.close();
     }
+
     close = () => {
-        const target = document.getElementById('react-modal');
-        if (target && target.parentNode) {
-            target.parentNode.removeChild(target);
+        const {autoClose = true, onClose} = this.props;
+        if (autoClose && onClose) {
+            onClose();
         }
-        document.body.children[0].classList.remove('react-modal');
     }
 
     render() {
-        const {title, classNames, hideFooter, children, onSave, onCancel} = this.props;
+        const {title, classNames, hideFooter, children} = this.props;
         return (
             <div className={`modal is-active ${classNames}`}>
                 <div className="modal-background"/>
@@ -94,7 +93,7 @@ export class Container extends React.Component<Props, {}> {
                     <div className="card">
                         <Header>{title}</Header>
                         <Body>{children}</Body>
-                        {hideFooter || <Footer onSave={onSave} onCancel={onCancel}/>}
+                        {hideFooter || <Footer onSave={this.onSave} onCancel={this.onCancel}/>}
                     </div>
                 </div>
             </div>
@@ -102,10 +101,25 @@ export class Container extends React.Component<Props, {}> {
     }
 }
 
-export function showModal(options: Props) {
-    document.body.children[0].classList.add('react-modal');
+export interface ShowOption extends Props {
+    divId?: string;
+    divClass?: string;
+    content?: string | React.Component;
+}
+
+export function show(options: ShowOption) {
+    const {divId = 'modal-bookmark', divClass = 'modal-bookmark', content} = options;
+    document.body.children[0].classList.add(divId);
     const divTarget = document.createElement('div');
-    divTarget.id = `react-modal-${Math.random()}`;
+    divTarget.id = divClass;
     document.body.appendChild(divTarget);
-    ReactDOM.render(<Container {...options} />, divTarget);
+
+    const close = () => {
+        if (divTarget && divTarget.parentNode) {
+            divTarget.parentNode.removeChild(divTarget);
+        }
+        document.body.children[0].classList.remove(divClass);
+    };
+
+    ReactDOM.render(<Container onClose={close} {...options} >{content}</Container>, divTarget);
 }

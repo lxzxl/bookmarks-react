@@ -1,12 +1,12 @@
 import * as React from 'react';
-import {showConfirm} from '../components/Confirm';
-import {createBookmarkModal} from './BookmarkModal';
+import {show as showConfirm} from '../components/Confirm';
+import {show as createBookmarkModal} from './BookmarkModal';
 
 interface ActionProps {
 }
 
-function Action(props: ActionProps) {
-    const remove = () => {
+class Action extends React.Component<ActionProps, {}> {
+    remove = () => {
         showConfirm({
             message: 'Are you sure to remove this bookmark?',
             onConfirm() {
@@ -16,32 +16,35 @@ function Action(props: ActionProps) {
                 console.log('cancel');
             }
         });
-    };
-    const edit = () => {
+    }
+
+    edit = () => {
         createBookmarkModal({
             onSave() {
                 console.log('save');
             },
             onCancel() {
                 console.log('cancel');
-            }
+            },
         });
-    };
+    }
 
-    return (
-        <div className="actions field has-addons">
-            <div className="edit control">
-                <a className=" button is-info" onClick={edit}>
-                    <span className="icon"><i className="fa fa-pencil"/></span>
-                </a>
+    render() {
+        return (
+            <div className="actions field has-addons">
+                <div className="edit control">
+                    <a className=" button is-info" onClick={this.edit}>
+                        <span className="icon"><i className="fa fa-pencil"/></span>
+                    </a>
+                </div>
+                <div className="remove control">
+                    <a className="button is-danger" onClick={this.remove}>
+                        <span className="icon"><i className="fa fa-trash"/></span>
+                    </a>
+                </div>
             </div>
-            <div className="remove control">
-                <a className="button is-danger" onClick={remove}>
-                    <span className="icon"><i className="fa fa-trash"/></span>
-                </a>
-            </div>
-        </div>
-    );
+        );
+    }
 }
 
 interface Props {
