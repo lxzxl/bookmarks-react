@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Actions from '../components/Actions';
 import Bookmark from './Bookmark';
+import {show as createBookmarkModal} from './BookmarkModal';
 
 interface Props {
     title: string;
@@ -9,6 +10,22 @@ interface Props {
 interface State {
     isEditMode: boolean;
     bookmarks: BookmarkModel[];
+}
+
+function Add(props: { onAdd(): void; }) {
+    return (
+        <div className="Bookmark column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
+            <div className="wrapper">
+                <div className="field has-text-centered">
+                    <a className="button is-info" onClick={props.onAdd}>
+                        <span className="icon is-small">
+                          <i className="fa fa-plus"/>
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    );
 }
 
 export default class Collection extends React.Component<Props, State> {
@@ -30,6 +47,27 @@ export default class Collection extends React.Component<Props, State> {
     handleClick = () => {
         this.setState({
             isEditMode: !this.state.isEditMode
+        });
+    }
+    handleAdd = () => {
+        createBookmarkModal({
+            bookmark: {
+                id: '',
+                name: '',
+                url: '',
+                iconUrl: ''
+            },
+            onSave: () => {
+                this.setState((prevState: State, props: Props) => ({
+                        bookmarks: [...prevState.bookmarks, {
+                            id: 'b-2',
+                            name: 'Twitter2',
+                            url: 'http://twitter2.com',
+                            iconUrl: ''
+                        }]
+                    })
+                );
+            }
         });
     }
 
@@ -56,6 +94,7 @@ export default class Collection extends React.Component<Props, State> {
                                 return <Bookmark key={bookmark.id} bookmark={bookmark} isEditMode={isEditMode}/>;
                             })
                         }
+                        {isEditMode && <Add onAdd={this.handleAdd}/>}
                     </div>
                 </div>
             </div>

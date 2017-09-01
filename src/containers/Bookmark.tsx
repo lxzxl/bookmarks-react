@@ -80,7 +80,7 @@ export default class Bookmark extends React.Component<Props, State> {
                     <div className="bookmark-link field has-addons has-addons-centered is-marginless">
                         <a className="link button is-primary" href={bookmark.url} onClick={this.handleClick}>
                             <span className="icon"><i className="fa fa-twitter"/></span>
-                            <span>{name}</span>
+                            <span>{bookmark.name}</span>
                         </a>
                         {isEditMode && <Action bookmark={bookmark}/>}
                     </div>

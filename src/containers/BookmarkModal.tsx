@@ -5,8 +5,8 @@ import * as Modal from '../components/Modal';
 interface Props {
     bookmark: BookmarkModel;
     onClose?: () => void;
+    onCancel?: () => void;
     onSave(): void;
-    onCancel(): void;
 }
 
 export class BookmarkModal extends React.Component<Props, {}> {
@@ -21,8 +21,11 @@ export class BookmarkModal extends React.Component<Props, {}> {
                     <div className="field-body">
                         <div className="field">
                             <div className="control">
-                                <input className="input" type="text" defaultValue={bookmark.name}/>
+                                <input className="input is-danger" type="text" defaultValue={bookmark.name}/>
                             </div>
+                            <p className="help is-danger">
+                                This field is required
+                            </p>
                         </div>
                     </div>
                 </div>
