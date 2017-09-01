@@ -2,18 +2,13 @@ import * as React from 'react';
 import Actions from '../components/Actions';
 import Bookmark from './Bookmark';
 
-interface Link {
-    url: string;
-    name: string;
-}
-
 interface Props {
     title: string;
 }
 
 interface State {
     isEditMode: boolean;
-    bookmarks: Link[];
+    bookmarks: BookmarkModel[];
 }
 
 export default class Collection extends React.Component<Props, State> {
@@ -21,7 +16,14 @@ export default class Collection extends React.Component<Props, State> {
         super(props);
         this.state = {
             isEditMode: false,
-            bookmarks: [],
+            bookmarks: [
+                {
+                    id: 'b-1',
+                    name: 'Twitter',
+                    url: 'http://twitter.com',
+                    iconUrl: ''
+                }
+            ],
         };
     }
 
@@ -33,6 +35,7 @@ export default class Collection extends React.Component<Props, State> {
 
     render() {
         let isEditMode = this.state.isEditMode;
+        const {bookmarks} = this.state;
         return (
             <div className="box Collection">
                 <div className="level is-mobile">
@@ -48,10 +51,11 @@ export default class Collection extends React.Component<Props, State> {
                 </div>
                 <div className="content">
                     <div className="columns is-mobile is-multiline">
-                        <Bookmark name={'Twitter1'} url={'Twitter'} isEditMode={isEditMode}/>
-                        <Bookmark name={'Twitter2'} url={'Twitter'} isEditMode={isEditMode}/>
-                        <Bookmark name={'Twitter3'} url={'Twitter'} isEditMode={isEditMode}/>
-                        <Bookmark name={'Twitter4'} url={'Twitter'} isEditMode={isEditMode}/>
+                        {
+                            bookmarks.map((bookmark) => {
+                                return <Bookmark key={bookmark.id} bookmark={bookmark} isEditMode={isEditMode}/>;
+                            })
+                        }
                     </div>
                 </div>
             </div>

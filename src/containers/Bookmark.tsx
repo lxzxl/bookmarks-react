@@ -3,6 +3,7 @@ import {show as showConfirm} from '../components/Confirm';
 import {show as createBookmarkModal} from './BookmarkModal';
 
 interface ActionProps {
+    bookmark: BookmarkModel;
 }
 
 class Action extends React.Component<ActionProps, {}> {
@@ -20,6 +21,7 @@ class Action extends React.Component<ActionProps, {}> {
 
     edit = () => {
         createBookmarkModal({
+            bookmark: this.props.bookmark,
             onSave() {
                 console.log('save');
             },
@@ -48,8 +50,7 @@ class Action extends React.Component<ActionProps, {}> {
 }
 
 interface Props {
-    url: string;
-    name: string;
+    bookmark: BookmarkModel;
     isEditMode: boolean;
 }
 
@@ -72,16 +73,16 @@ export default class Bookmark extends React.Component<Props, State> {
     }
 
     render() {
-        const {url, name, isEditMode} = this.props;
+        const {bookmark, isEditMode} = this.props;
         return (
             <div className="Bookmark column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
                 <div className="wrapper">
                     <div className="bookmark-link field has-addons has-addons-centered is-marginless">
-                        <a className="link button is-primary" href={url} onClick={this.handleClick}>
+                        <a className="link button is-primary" href={bookmark.url} onClick={this.handleClick}>
                             <span className="icon"><i className="fa fa-twitter"/></span>
                             <span>{name}</span>
                         </a>
-                        {isEditMode && <Action/>}
+                        {isEditMode && <Action bookmark={bookmark}/>}
                     </div>
                 </div>
             </div>

@@ -3,6 +3,7 @@ import * as ReactDOM from 'react-dom';
 import * as Modal from '../components/Modal';
 
 interface Props {
+    bookmark: BookmarkModel;
     onClose?: () => void;
     onSave(): void;
     onCancel(): void;
@@ -10,7 +11,7 @@ interface Props {
 
 export class BookmarkModal extends React.Component<Props, {}> {
     render() {
-        const {onSave, onCancel, onClose} = this.props;
+        const {bookmark, onSave, onCancel, onClose} = this.props;
         return (
             <Modal.Container title="Edit" classNames="bookmark" onSave={onSave} onCancel={onCancel} onClose={onClose}>
                 <div className="field is-horizontal">
@@ -20,7 +21,7 @@ export class BookmarkModal extends React.Component<Props, {}> {
                     <div className="field-body">
                         <div className="field">
                             <div className="control">
-                                <input className="input" type="text"/>
+                                <input className="input" type="text" defaultValue={bookmark.name}/>
                             </div>
                         </div>
                     </div>
@@ -32,7 +33,7 @@ export class BookmarkModal extends React.Component<Props, {}> {
                     <div className="field-body">
                         <div className="field">
                             <div className="control">
-                                <input className="input" type="text"/>
+                                <input className="input" type="text" defaultValue={bookmark.url}/>
                             </div>
                         </div>
                     </div>
@@ -44,7 +45,7 @@ export class BookmarkModal extends React.Component<Props, {}> {
                     <div className="field-body">
                         <div className="field">
                             <div className="control">
-                                <input className="input" type="text"/>
+                                <input className="input" type="text" defaultValue={bookmark.iconUrl}/>
                             </div>
                         </div>
                     </div>
