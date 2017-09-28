@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import * as Modal from '../components/Modal';
+import {InputField as Input} from '../components/InputField';
 
 interface Props {
     bookmark: BookmarkModel;
@@ -19,14 +20,7 @@ export class BookmarkModal extends React.Component<Props, {}> {
                         <label className="label">Name</label>
                     </div>
                     <div className="field-body">
-                        <div className="field">
-                            <div className="control">
-                                <input className="input is-danger" type="text" defaultValue={bookmark.name}/>
-                            </div>
-                            <p className="help is-danger">
-                                This field is required
-                            </p>
-                        </div>
+                        <Input defaultVal={bookmark.name}/>
                     </div>
                 </div>
                 <div className="field is-horizontal">
@@ -34,11 +28,7 @@ export class BookmarkModal extends React.Component<Props, {}> {
                         <label className="label">Url</label>
                     </div>
                     <div className="field-body">
-                        <div className="field">
-                            <div className="control">
-                                <input className="input" type="text" defaultValue={bookmark.url}/>
-                            </div>
-                        </div>
+                        <Input defaultVal={bookmark.url}/>
                     </div>
                 </div>
                 <div className="field is-horizontal">
@@ -46,11 +36,7 @@ export class BookmarkModal extends React.Component<Props, {}> {
                         <label className="label">Icon Url</label>
                     </div>
                     <div className="field-body">
-                        <div className="field">
-                            <div className="control">
-                                <input className="input" type="text" defaultValue={bookmark.iconUrl}/>
-                            </div>
-                        </div>
+                        <Input defaultVal={bookmark.iconUrl}/>
                     </div>
                 </div>
             </Modal.Container>

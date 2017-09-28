@@ -1,12 +1,37 @@
 import * as React from 'react';
 
 interface Props {
-    doLogin(): void;
+    doLogin(isAnony: boolean, data: State): void;
 }
 
-export default class Login extends React.Component<Props, {}> {
+interface State {
+    email: string;
+    password: string;
+}
+
+export default class Login extends React.Component<Props, State> {
+    constructor(props: Props) {
+        super(props);
+        this.state = {
+            email: 'test@test.com',
+            password: ''
+        };
+    }
+
+    handleInputChange = (event: React.SyntheticEvent<HTMLInputElement>) => {
+        const target = event.target as HTMLInputElement;
+        // Temp fix.
+        this.setState(() => ({
+            [target.name]: target.value
+        }));
+    }
+
     render() {
         const {doLogin} = this.props;
+        const data = {
+            email: this.state.email,
+            password: this.state.password
+        };
         return (
             <div className=" Login section">
                 <div className="modal is-active">
@@ -17,7 +42,9 @@ export default class Login extends React.Component<Props, {}> {
                             <div className="column is-full-mobile is-half-tablet">
                                 <div className="field">
                                     <p className="control has-icons-left">
-                                        <input className="input" type="email" placeholder="Email"/>
+                                        <input name="email" className="input" type="email" placeholder="Email"
+                                               value={this.state.email}
+                                               onChange={e => this.handleInputChange(e)}/>
                                         <span className="icon is-small is-left">
                                           <i className="fa fa-envelope"/>
                                         </span>
@@ -27,7 +54,9 @@ export default class Login extends React.Component<Props, {}> {
                             <div className="column is-full-mobile is-half-tablet">
                                 <div className="field">
                                     <p className="control has-icons-left">
-                                        <input className="input" type="password" placeholder="Password"/>
+                                        <input name="password" className="input" type="password" placeholder="Password"
+                                               value={this.state.password}
+                                               onChange={e => this.handleInputChange(e)}/>
                                         <span className="icon is-small is-left">
                                           <i className="fa fa-lock"/>
                                         </span>
@@ -35,12 +64,17 @@ export default class Login extends React.Component<Props, {}> {
                                 </div>
                             </div>
                             <div className="column">
-                                <div className="field">
-                                    <p className="control">
-                                        <button className="login button is-success" onClick={doLogin}>
+                                <div className="field is-grouped is-grouped-right">
+                                    <div className="control">
+                                        <button className="login button is-success" onClick={e => doLogin(false, data)}>
                                             Login
                                         </button>
-                                    </p>
+                                    </div>
+                                    <div className="control">
+                                        <button className="button is-center is-link" onClick={e => doLogin(true, data)}>
+                                            <span className="is-size-7">Anonymous</span>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
