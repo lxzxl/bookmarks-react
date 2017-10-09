@@ -14,7 +14,7 @@ class App extends React.Component<{}, State> {
     constructor(props: {}) {
         super(props);
         this.state = {
-            isLogin: false
+            isLogin: true
         };
 
     }

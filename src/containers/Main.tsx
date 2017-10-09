@@ -1,10 +1,11 @@
 import * as React from 'react';
 import Collection from './Collection';
 import RoundAdd from '../components/RoundAdd';
+import Notification from '../components/Notification';
 
 export default class Main extends React.Component<{}, {}> {
     onAdd = () => {
-        console.log('add collection');
+        Notification.show('test');
     }
 
     render() {
