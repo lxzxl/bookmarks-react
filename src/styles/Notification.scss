@@ -1,11 +1,23 @@
 .my-notification {
   position: fixed;
   z-index: 1000;
+  width: 350px;
 
   &.topRight {
-    width: 350px;
-    top: 1em;
-    right: 1em;
+    top: 1.5em;
+    right: 1.5em;
+  }
+  &.topLeft {
+    top: 1.5em;
+    left: 1.5em;
+  }
+  &.bottomRight {
+    bottom: 1.5em;
+    right: 1.5em;
+  }
+  &.bottomLeft {
+    bottom: 1.5em;
+    left: 1.5em;
   }
 }
 
@@ -18,5 +30,5 @@
   line-height: 1.5;
   vertical-align: middle;
   position: relative;
-  margin: 10px 0;
+  margin-bottom: 0.5em;
 }
