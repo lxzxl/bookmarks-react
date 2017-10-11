@@ -5,7 +5,7 @@ import Notification from '../components/Notification';
 
 export default class Main extends React.Component<{}, {}> {
     onAdd = () => {
-        Notification.show('test');
+        Notification.success('test components Notification');
     }
 
     render() {
