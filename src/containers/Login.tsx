@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as Icons from 'react-feather';
 
 interface Props {
     doLogin(isAnony: boolean, data: State): void;
@@ -46,7 +47,7 @@ export default class Login extends React.Component<Props, State> {
                                                value={this.state.email}
                                                onChange={e => this.handleInputChange(e)}/>
                                         <span className="icon is-small is-left">
-                                          <i className="fa fa-envelope"/>
+                                            <Icons.Mail/>
                                         </span>
                                     </p>
                                 </div>
@@ -58,7 +59,7 @@ export default class Login extends React.Component<Props, State> {
                                                value={this.state.password}
                                                onChange={e => this.handleInputChange(e)}/>
                                         <span className="icon is-small is-left">
-                                          <i className="fa fa-lock"/>
+                                          <Icons.Lock/>
                                         </span>
                                     </p>
                                 </div>

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as Icons from 'react-feather';
 import Actions from '../components/Actions';
 import Bookmark from './Bookmark';
 import {show as createBookmarkModal} from './BookmarkModal';
@@ -19,7 +20,7 @@ function Add(props: { onAdd(): void; }) {
                 <div className="field has-text-centered">
                     <a className="button is-info" onClick={props.onAdd}>
                         <span className="icon is-small">
-                          <i className="fa fa-plus"/>
+                          <Icons.Plus/>
                         </span>
                     </a>
                 </div>
@@ -79,7 +80,7 @@ export default class Collection extends React.Component<Props, State> {
                 <div className="level is-mobile">
                     <div className="level-left">
                         <p className="title is-4">
-                            <span className="icon"><i className="fa fa-bookmark"/></span>
+                            <span className="icon"><Icons.Book/></span>
                             <span>{this.props.title}</span>
                         </p>
                     </div>

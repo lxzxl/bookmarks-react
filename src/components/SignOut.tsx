@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as Icons from 'react-feather';
 
 interface Props {
     isHiddenDesktop?: boolean;
@@ -12,7 +13,7 @@ export default function SignOut({isHiddenDesktop, doLogout}: Props) {
             <a className="button is-white" onClick={doLogout}>
                 {isHiddenDesktop || <span>Sign Out</span>}
                 <span className="icon">
-                    <i className="fa fa-sign-out"/>
+                    <Icons.LogOut />
                 </span>
             </a>
         </div>

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as Icons from 'react-feather';
 import {show as showConfirm} from '../components/Confirm';
 import {show as createBookmarkModal} from './BookmarkModal';
 
@@ -36,12 +37,12 @@ class Action extends React.Component<ActionProps, {}> {
             <div className="actions field has-addons">
                 <div className="edit control">
                     <a className=" button is-info" onClick={this.edit}>
-                        <span className="icon"><i className="fa fa-pencil"/></span>
+                        <span className="icon"><Icons.Edit2/></span>
                     </a>
                 </div>
                 <div className="remove control">
                     <a className="button is-danger" onClick={this.remove}>
-                        <span className="icon"><i className="fa fa-trash"/></span>
+                        <span className="icon"><Icons.Trash2/></span>
                     </a>
                 </div>
             </div>
@@ -79,7 +80,7 @@ export default class Bookmark extends React.Component<Props, State> {
                 <div className="wrapper">
                     <div className="bookmark-link field has-addons has-addons-centered is-marginless">
                         <a className="link button is-primary" href={bookmark.url} onClick={this.handleClick}>
-                            <span className="icon"><i className="fa fa-twitter"/></span>
+                            <span className="icon"><Icons.Twitter/></span>
                             <span>{bookmark.name}</span>
                         </a>
                         {isEditMode && <Action bookmark={bookmark}/>}
