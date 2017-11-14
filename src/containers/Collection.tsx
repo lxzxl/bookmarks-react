@@ -39,7 +39,8 @@ export default class Collection extends React.Component<Props, State> {
                     id: 'b-1',
                     name: 'Twitter',
                     url: 'http://twitter.com',
-                    iconUrl: ''
+                    icon: 'Twitter',
+                    iconUrl: 'https://abs-0.twimg.com/responsive-web/web/ltr/icon-ios.a9cd885bccbcaf2f.png'
                 }
             ],
         };
@@ -64,6 +65,7 @@ export default class Collection extends React.Component<Props, State> {
                             id: 'b-2',
                             name: 'Twitter2',
                             url: 'http://twitter2.com',
+                            icon: 'Twitter',
                             iconUrl: ''
                         }]
                     })

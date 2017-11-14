@@ -3,6 +3,8 @@ import * as Icons from 'react-feather';
 import {show as showConfirm} from '../components/Confirm';
 import {show as createBookmarkModal} from './BookmarkModal';
 
+const capitalize = require('lodash/capitalize');
+
 interface ActionProps {
     bookmark: BookmarkModel;
 }
@@ -50,6 +52,21 @@ class Action extends React.Component<ActionProps, {}> {
     }
 }
 
+function BookmarkIcon(props: { bookmark: BookmarkModel }) {
+    const {bookmark} = props;
+    if (bookmark.iconUrl) {
+        return <img src={bookmark.iconUrl}/>
+    }
+    const iconLookup = bookmark.icon && capitalize(bookmark.icon);
+    if (iconLookup && iconLookup in Icons) {
+        const Icon = Icons[iconLookup];
+        return <Icon/>
+    }
+    return (
+        <Icons.Bookmark/>
+    )
+}
+
 interface Props {
     bookmark: BookmarkModel;
     isEditMode: boolean;
@@ -75,12 +92,14 @@ export default class Bookmark extends React.Component<Props, State> {
 
     render() {
         const {bookmark, isEditMode} = this.props;
+
         return (
             <div className="Bookmark column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
                 <div className="wrapper">
                     <div className="bookmark-link field has-addons has-addons-centered is-marginless">
-                        <a className="link button is-primary" href={bookmark.url} onClick={this.handleClick}>
-                            <span className="icon"><Icons.Twitter/></span>
+                        <a className="link button is-primary" href={bookmark.url} onClick={this.handleClick}
+                           target="blank">
+                            <span className="icon"><BookmarkIcon bookmark={bookmark}/></span>
                             <span>{bookmark.name}</span>
                         </a>
                         {isEditMode && <Action bookmark={bookmark}/>}

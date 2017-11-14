@@ -19,8 +19,8 @@ class App extends React.Component<{}, State> {
 
     }
 
-    handleLogin = (isAnony: boolean, data: { email: string, password: string }) => {
-        (isAnony ? signInAnonymously() : signIn(data.email, data.password)).then(
+    handleLogin = (isAnon: boolean, data: { email: string, password: string }) => {
+        (isAnon ? signInAnonymously() : signIn(data.email, data.password)).then(
             () => {
                 this.setState({
                     isLogin: true

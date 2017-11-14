@@ -9,6 +9,7 @@ declare global {
         id: string;
         name: string;
         url: string;
+        icon?: string;
         iconUrl: string;
     }
 
