@@ -57,7 +57,7 @@ function BookmarkIcon(props: { bookmark: BookmarkModel }) {
     if (bookmark.iconUrl) {
         return <img src={bookmark.iconUrl}/>
     }
-    const iconLookup = bookmark.icon && capitalize(bookmark.icon);
+    const iconLookup = bookmark.iconName && capitalize(bookmark.iconName);
     if (iconLookup && iconLookup in Icons) {
         const Icon = Icons[iconLookup];
         return <Icon/>
