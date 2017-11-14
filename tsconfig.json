@@ -13,10 +13,8 @@
     "moduleResolution": "node",
     "rootDir": "src",
     "typeRoots": [
+      "./node_modules/@types",
       "./typings"
-    ],
-    "types": [
-      "jest"
     ],
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
