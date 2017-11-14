@@ -14,7 +14,7 @@ export default class Main extends React.Component<{}, {}> {
                 <div className="container">
                     <Collection title="Popular"/>
                     <Collection title="Work"/>
-                    <RoundAdd onAdd={this.onAdd}/>
+                    <RoundAdd color="info" onAdd={this.onAdd}/>
                 </div>
             </section>
         );
