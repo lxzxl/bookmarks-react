@@ -1,7 +1,6 @@
 import * as React from 'react';
+import omit from 'lodash/omit';
 import * as Modal from '../components/Modal';
-
-const omit = require('lodash/omit');
 
 interface Props {
     title?: string;

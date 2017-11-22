@@ -1,16 +1,17 @@
 import * as React from 'react';
 import * as Icons from 'react-feather';
-import Actions from '../components/Actions';
+import clone from 'lodash/clone';
+import Actions, {ActionType} from '../components/Actions';
 import Bookmark from './Bookmark';
 import {show as createBookmarkModal} from './BookmarkModal';
 
 interface Props {
     title: string;
+    bookmarks: BookmarkModel[];
 }
 
-interface State {
+interface State extends Props {
     isEditMode: boolean;
-    bookmarks: BookmarkModel[];
 }
 
 function Add(props: { onAdd(): void; }) {
@@ -30,44 +31,36 @@ function Add(props: { onAdd(): void; }) {
 }
 
 export default class Collection extends React.Component<Props, State> {
+    private titleInput: HTMLInputElement;
+
     constructor(props: Props) {
         super(props);
+        const {bookmarks = [], title} = this.props;
         this.state = {
             isEditMode: false,
-            bookmarks: [
-                {
-                    id: 'b-1',
-                    name: 'Twitter',
-                    url: 'http://twitter.com',
-                    iconName: 'Twitter',
-                    iconUrl: 'https://abs-0.twimg.com/responsive-web/web/ltr/icon-ios.a9cd885bccbcaf2f.png'
-                }
-            ],
+            title,
+            bookmarks: clone(bookmarks),
         };
     }
 
-    handleClick = () => {
+    handleAction = (action: ActionType) => {
+        console.log(action);
         this.setState({
             isEditMode: !this.state.isEditMode
         });
     }
+
     handleAdd = () => {
         createBookmarkModal({
             bookmark: {
-                id: '',
                 name: '',
                 url: '',
                 iconUrl: ''
             },
-            onSave: () => {
+            onSave: (bookmark: BookmarkModel) => {
+                console.log(this.titleInput.value);
                 this.setState((prevState: State, props: Props) => ({
-                        bookmarks: [...prevState.bookmarks, {
-                            id: 'b-2',
-                            name: 'Twitter2',
-                            url: 'http://twitter2.com',
-                            iconName: 'Twitter',
-                            iconUrl: ''
-                        }]
+                        bookmarks: [...prevState.bookmarks, bookmark]
                     })
                 );
             }
@@ -81,20 +74,31 @@ export default class Collection extends React.Component<Props, State> {
             <div className="box Collection">
                 <div className="level is-mobile">
                     <div className="level-left">
-                        <p className="title is-4">
-                            <span className="icon"><Icons.Book/></span>
-                            <span>{this.props.title}</span>
-                        </p>
+                        {
+                            isEditMode ?
+                                <div className="field">
+                                    <p className="control has-icons-left">
+                                        <input className="input" type="text" placeholder={this.props.title}
+                                               ref={(input: HTMLInputElement) => this.titleInput = input}/>
+                                        <span className="icon is-small is-left"><Icons.Book/></span>
+                                    </p>
+                                </div>
+                                :
+                                <p className="title is-4">
+                                    <span className="icon"><Icons.Book/></span>
+                                    <span>{this.props.title}</span>
+                                </p>
+                        }
                     </div>
                     <div className="level-right edit">
-                        <Actions isEditMode={isEditMode} handleClick={this.handleClick}/>
+                        <Actions isEditMode={isEditMode} handleAction={this.handleAction}/>
                     </div>
                 </div>
                 <div className="content">
                     <div className="columns is-mobile is-multiline">
                         {
                             bookmarks.map((bookmark) => {
-                                return <Bookmark key={bookmark.id} bookmark={bookmark} isEditMode={isEditMode}/>;
+                                return <Bookmark key={bookmark.url} bookmark={bookmark} isEditMode={isEditMode}/>;
                             })
                         }
                         {isEditMode && <Add onAdd={this.handleAdd}/>}

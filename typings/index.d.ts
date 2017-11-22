@@ -6,7 +6,6 @@ declare global {
     }
 
     interface BookmarkModel {
-        id: string;
         name: string;
         url: string;
         iconName?: string;

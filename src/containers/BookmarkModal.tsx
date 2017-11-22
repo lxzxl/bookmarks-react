@@ -7,14 +7,26 @@ interface Props {
     bookmark: BookmarkModel;
     onClose?: () => void;
     onCancel?: () => void;
-    onSave(): void;
+    onSave(bookmark: BookmarkModel): void;
 }
 
 export class BookmarkModal extends React.Component<Props, {}> {
+    beforeSave = () => {
+        const {bookmark, onSave} = this.props;
+        console.log(bookmark);
+        onSave({
+            name: 'Twitter2',
+            url: 'http://twitter2.com',
+            iconName: 'Twitter',
+            iconUrl: ''
+        });
+    }
+
     render() {
-        const {bookmark, onSave, onCancel, onClose} = this.props;
+        const {bookmark, onCancel, onClose} = this.props;
         return (
-            <Modal.Container title="Edit" classNames="bookmark" onSave={onSave} onCancel={onCancel} onClose={onClose}>
+            <Modal.Container title="Edit" classNames="bookmark" onSave={this.beforeSave} onCancel={onCancel}
+                             onClose={onClose}>
                 <div className="field is-horizontal">
                     <div className="field-label is-normal">
                         <label className="label">Name</label>
