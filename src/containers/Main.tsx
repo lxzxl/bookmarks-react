@@ -9,16 +9,18 @@ export default class Main extends React.Component<{}, {}> {
     }
 
     render() {
-        const bookmarks1 = [
+        const collection1 = [
             {
+                id: 1,
                 name: 'Twitter',
                 url: 'http://twitter.com',
                 iconName: 'Twitter',
                 iconUrl: 'https://abs-0.twimg.com/responsive-web/web/ltr/icon-ios.a9cd885bccbcaf2f.png'
             }
         ];
-        const bookmarks2 = [
+        const collection2 = [
             {
+                id: 2,
                 name: 'Facebook',
                 url: 'http://facebook.com',
                 iconName: 'Facebook',
@@ -28,8 +30,8 @@ export default class Main extends React.Component<{}, {}> {
         return (
             <section className="Main section">
                 <div className="container">
-                    <Collection title="Popular" bookmarks={bookmarks1}/>
-                    <Collection title="Work" bookmarks={bookmarks2}/>
+                    <Collection title="Popular" bookmarks={collection1}/>
+                    <Collection title="Work" bookmarks={collection2}/>
                     <RoundAdd color="info" onAdd={this.onAdd}/>
                 </div>
             </section>

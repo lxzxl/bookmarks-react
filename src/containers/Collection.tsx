@@ -14,7 +14,7 @@ interface State extends Props {
     isEditMode: boolean;
 }
 
-function Add(props: { onAdd(): void; }) {
+function AddBookmark(props: { onAdd(): void; }) {
     return (
         <div className="Bookmark column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
             <div className="wrapper">
@@ -41,30 +41,6 @@ export default class Collection extends React.Component<Props, State> {
             title,
             bookmarks: clone(bookmarks),
         };
-    }
-
-    handleAction = (action: ActionType) => {
-        console.log(action);
-        this.setState({
-            isEditMode: !this.state.isEditMode
-        });
-    }
-
-    handleAdd = () => {
-        createBookmarkModal({
-            bookmark: {
-                name: '',
-                url: '',
-                iconUrl: ''
-            },
-            onSave: (bookmark: BookmarkModel) => {
-                console.log(this.titleInput.value);
-                this.setState((prevState: State, props: Props) => ({
-                        bookmarks: [...prevState.bookmarks, bookmark]
-                    })
-                );
-            }
-        });
     }
 
     render() {
@@ -98,13 +74,50 @@ export default class Collection extends React.Component<Props, State> {
                     <div className="columns is-mobile is-multiline">
                         {
                             bookmarks.map((bookmark) => {
-                                return <Bookmark key={bookmark.url} bookmark={bookmark} isEditMode={isEditMode}/>;
+                                return <Bookmark key={bookmark.url} bookmark={bookmark} isEditMode={isEditMode}
+                                                 onSave={this.saveBookmark}/>;
                             })
                         }
-                        {isEditMode && <Add onAdd={this.handleAdd}/>}
+                        {isEditMode && <AddBookmark onAdd={this.addBookmark}/>}
                     </div>
                 </div>
             </div>
         );
+    }
+
+    handleAction = (action: ActionType) => {
+        console.log(action);
+        this.setState({
+            isEditMode: !this.state.isEditMode
+        });
+    }
+
+    addBookmark = () => {
+        createBookmarkModal({
+            bookmark: {
+                name: '',
+                url: '',
+                iconName: '',
+                iconUrl: ''
+            },
+            onSave: this.saveBookmark
+        });
+    }
+
+    saveBookmark = (bookmark: BookmarkModel) => {
+        this.setState((prevState: State) => {
+            const oldBookmarks = prevState.bookmarks;
+            let newBookmarks;
+            if (bookmark.id) {
+                newBookmarks = oldBookmarks.map(b => {
+                    return b.id === bookmark.id ? bookmark : b;
+                });
+            } else {
+                newBookmarks = [...oldBookmarks, bookmark];
+            }
+            return {
+                bookmarks: newBookmarks
+            };
+        });
     }
 }

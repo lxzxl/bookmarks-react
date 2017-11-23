@@ -10,20 +10,28 @@ interface Props {
     onSave(bookmark: BookmarkModel): void;
 }
 
-export class BookmarkModal extends React.Component<Props, {}> {
+interface State extends BookmarkModel {
+}
+
+export class BookmarkModal extends React.Component<Props, State> {
+    constructor(props: Props) {
+        super(props);
+        this.state = Object.assign({}, this.props.bookmark);
+    }
+
     beforeSave = () => {
-        const {bookmark, onSave} = this.props;
-        console.log(bookmark);
-        onSave({
-            name: 'Twitter2',
-            url: 'http://twitter2.com',
-            iconName: 'Twitter',
-            iconUrl: ''
-        });
+        const {onSave} = this.props;
+        console.log(this.state);
+        onSave(this.state);
+    }
+
+    handleChangeFor = (propertyName: keyof State) => (event: React.SyntheticEvent<HTMLInputElement>) => {
+        /* tslint:disable: no-any */
+        this.setState({[propertyName as any]: event.currentTarget.value});
     }
 
     render() {
-        const {bookmark, onCancel, onClose} = this.props;
+        const {onCancel, onClose} = this.props;
         return (
             <Modal.Container title="Edit" classNames="bookmark" onSave={this.beforeSave} onCancel={onCancel}
                              onClose={onClose}>
@@ -32,7 +40,7 @@ export class BookmarkModal extends React.Component<Props, {}> {
                         <label className="label">Name</label>
                     </div>
                     <div className="field-body">
-                        <Input defaultVal={bookmark.name}/>
+                        <Input val={this.state.name} handleChange={this.handleChangeFor('name')} isRequired={true}/>
                     </div>
                 </div>
                 <div className="field is-horizontal">
@@ -40,7 +48,15 @@ export class BookmarkModal extends React.Component<Props, {}> {
                         <label className="label">Url</label>
                     </div>
                     <div className="field-body">
-                        <Input defaultVal={bookmark.url}/>
+                        <Input val={this.state.url} handleChange={this.handleChangeFor('url')}/>
+                    </div>
+                </div>
+                <div className="field is-horizontal">
+                    <div className="field-label is-normal">
+                        <label className="label">Icon Name</label>
+                    </div>
+                    <div className="field-body">
+                        <Input val={this.state.iconName} handleChange={this.handleChangeFor('iconName')}/>
                     </div>
                 </div>
                 <div className="field is-horizontal">
@@ -48,7 +64,7 @@ export class BookmarkModal extends React.Component<Props, {}> {
                         <label className="label">Icon Url</label>
                     </div>
                     <div className="field-body">
-                        <Input defaultVal={bookmark.iconUrl}/>
+                        <Input val={this.state.iconUrl} handleChange={this.handleChangeFor('iconUrl')}/>
                     </div>
                 </div>
             </Modal.Container>

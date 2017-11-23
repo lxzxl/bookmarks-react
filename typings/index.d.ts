@@ -6,10 +6,14 @@ declare global {
     }
 
     interface BookmarkModel {
+        id?: number;
         name: string;
         url: string;
-        iconName?: string;
+        iconName: string;
         iconUrl: string;
     }
 
+    interface NewBookmarkModel extends BookmarkModel {
+        id: number;
+    }
 }

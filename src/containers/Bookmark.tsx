@@ -4,8 +4,11 @@ import capitalize from 'lodash/capitalize';
 import {show as showConfirm} from '../components/Confirm';
 import {show as createBookmarkModal} from './BookmarkModal';
 
+type onSave = (bookmark: BookmarkModel) => void;
+
 interface ActionProps {
     bookmark: BookmarkModel;
+    onSave: onSave;
 }
 
 class Action extends React.Component<ActionProps, {}> {
@@ -24,9 +27,7 @@ class Action extends React.Component<ActionProps, {}> {
     edit = () => {
         createBookmarkModal({
             bookmark: this.props.bookmark,
-            onSave() {
-                console.log('save');
-            },
+            onSave: this.props.onSave,
             onCancel() {
                 console.log('cancel');
             },
@@ -69,6 +70,7 @@ function BookmarkIcon(props: { bookmark: BookmarkModel }) {
 interface Props {
     bookmark: BookmarkModel;
     isEditMode: boolean;
+    onSave: onSave;
 }
 
 interface State {
@@ -90,7 +92,7 @@ export default class Bookmark extends React.Component<Props, State> {
     }
 
     render() {
-        const {bookmark, isEditMode} = this.props;
+        const {bookmark, isEditMode, onSave} = this.props;
 
         return (
             <div className="Bookmark column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
@@ -101,7 +103,7 @@ export default class Bookmark extends React.Component<Props, State> {
                             <span className="icon"><BookmarkIcon bookmark={bookmark}/></span>
                             <span>{bookmark.name}</span>
                         </a>
-                        {isEditMode && <Action bookmark={bookmark}/>}
+                        {isEditMode && <Action bookmark={bookmark} onSave={onSave}/>}
                     </div>
                 </div>
             </div>
