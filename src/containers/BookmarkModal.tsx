@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import * as Modal from '../components/Modal';
-import {InputField as Input} from '../components/InputField';
+import {Rules, InputField as Input} from '../components/InputField';
 
 interface Props {
     bookmark: BookmarkModel;
@@ -40,7 +40,8 @@ export class BookmarkModal extends React.Component<Props, State> {
                         <label className="label">Name</label>
                     </div>
                     <div className="field-body">
-                        <Input val={this.state.name} handleChange={this.handleChangeFor('name')} isRequired={true}/>
+                        <Input val={this.state.name} handleChange={this.handleChangeFor('name')}
+                               rules={[Rules.Required]}/>
                     </div>
                 </div>
                 <div className="field is-horizontal">
@@ -48,7 +49,8 @@ export class BookmarkModal extends React.Component<Props, State> {
                         <label className="label">Url</label>
                     </div>
                     <div className="field-body">
-                        <Input val={this.state.url} handleChange={this.handleChangeFor('url')}/>
+                        <Input val={this.state.url} handleChange={this.handleChangeFor('url')}
+                               rules={[Rules.Required]}/>
                     </div>
                 </div>
                 <div className="field is-horizontal">

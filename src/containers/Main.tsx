@@ -11,7 +11,7 @@ export default class Main extends React.Component<{}, {}> {
     render() {
         const collection1 = [
             {
-                id: 1,
+                id: Date.now(),
                 name: 'Twitter',
                 url: 'http://twitter.com',
                 iconName: 'Twitter',
@@ -20,7 +20,7 @@ export default class Main extends React.Component<{}, {}> {
         ];
         const collection2 = [
             {
-                id: 2,
+                id: Date.now(),
                 name: 'Facebook',
                 url: 'http://facebook.com',
                 iconName: 'Facebook',

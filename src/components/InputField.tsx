@@ -1,7 +1,14 @@
 import * as React from 'react';
 
+export enum Rules {
+    Required
+}
+
+type validator = () => boolean;
+
 interface Props {
-    isRequired?: boolean;
+    rules?: Array<Rules>;
+    validators?: Array<validator>;
 
     val: string;
     handleChange(event: React.SyntheticEvent<HTMLInputElement>): void;
@@ -12,11 +19,15 @@ interface State {
 }
 
 export class InputField extends React.Component<Props, State> {
+    private isRequired: boolean;
+
     constructor(props: Props) {
         super(props);
+        const {rules = []} = this.props;
         this.state = {
             hasError: false
         };
+        this.isRequired = rules.indexOf(Rules.Required) > -1;
     }
 
     shouldComponentUpdate(nextProps: Props, nextState: State) {
@@ -24,7 +35,7 @@ export class InputField extends React.Component<Props, State> {
     }
 
     render() {
-        const {val, isRequired} = this.props;
+        const {val} = this.props;
         const {hasError} = this.state;
         const errorCLass = hasError && 'is-danger' || '';
         return (
@@ -33,7 +44,7 @@ export class InputField extends React.Component<Props, State> {
                     <input className={`input ${errorCLass}`} type="text" name={name} value={val}
                            onChange={this.handleChange}/>
                 </div>
-                {isRequired && <p className={`help ${errorCLass}`}>
+                {this.isRequired && <p className={`help ${errorCLass}`}>
                     This field is required
                 </p>}
             </div>
@@ -41,7 +52,7 @@ export class InputField extends React.Component<Props, State> {
     }
 
     handleChange = (e: React.SyntheticEvent<HTMLInputElement>) => {
-        if (this.props.isRequired) {
+        if (this.isRequired) {
             this.setState({hasError: !e.currentTarget.value});
         }
 

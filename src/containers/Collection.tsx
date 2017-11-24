@@ -75,7 +75,7 @@ export default class Collection extends React.Component<Props, State> {
                         {
                             bookmarks.map((bookmark) => {
                                 return <Bookmark key={bookmark.url} bookmark={bookmark} isEditMode={isEditMode}
-                                                 onSave={this.saveBookmark}/>;
+                                                 onSave={this.saveBookmark} onDelete={this.deleteBookmark}/>;
                             })
                         }
                         {isEditMode && <AddBookmark onAdd={this.addBookmark}/>}
@@ -113,7 +113,26 @@ export default class Collection extends React.Component<Props, State> {
                     return b.id === bookmark.id ? bookmark : b;
                 });
             } else {
+                bookmark.id = Date.now();
                 newBookmarks = [...oldBookmarks, bookmark];
+            }
+            return {
+                bookmarks: newBookmarks
+            };
+        });
+    }
+
+    deleteBookmark = (bookmark: BookmarkModel) => {
+        this.setState((prevState: State) => {
+            if (!bookmark.id) {
+                return;
+            }
+            const oldBookmarks = prevState.bookmarks;
+            let newBookmarks;
+            if (bookmark.id) {
+                newBookmarks = oldBookmarks.filter(b => {
+                    return b.id !== bookmark.id;
+                });
             }
             return {
                 bookmarks: newBookmarks

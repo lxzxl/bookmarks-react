@@ -4,19 +4,21 @@ import capitalize from 'lodash/capitalize';
 import {show as showConfirm} from '../components/Confirm';
 import {show as createBookmarkModal} from './BookmarkModal';
 
-type onSave = (bookmark: BookmarkModel) => void;
+type handler = (bookmark: BookmarkModel) => void;
 
 interface ActionProps {
     bookmark: BookmarkModel;
-    onSave: onSave;
+    onSave: handler;
+    onDelete: handler;
 }
 
 class Action extends React.Component<ActionProps, {}> {
     remove = () => {
+        const {bookmark} = this.props;
         showConfirm({
             message: 'Are you sure to remove this bookmark?',
-            onConfirm() {
-                console.log('confirm');
+            onConfirm: () => {
+                this.props.onDelete(bookmark);
             },
             onCancel() {
                 console.log('cancel');
@@ -27,7 +29,9 @@ class Action extends React.Component<ActionProps, {}> {
     edit = () => {
         createBookmarkModal({
             bookmark: this.props.bookmark,
-            onSave: this.props.onSave,
+            onSave: () => {
+                this.props.onSave(this.props.bookmark);
+            },
             onCancel() {
                 console.log('cancel');
             },
@@ -70,7 +74,8 @@ function BookmarkIcon(props: { bookmark: BookmarkModel }) {
 interface Props {
     bookmark: BookmarkModel;
     isEditMode: boolean;
-    onSave: onSave;
+    onSave: handler;
+    onDelete: handler;
 }
 
 interface State {
@@ -92,7 +97,7 @@ export default class Bookmark extends React.Component<Props, State> {
     }
 
     render() {
-        const {bookmark, isEditMode, onSave} = this.props;
+        const {bookmark, isEditMode, onSave, onDelete} = this.props;
 
         return (
             <div className="Bookmark column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
@@ -103,7 +108,7 @@ export default class Bookmark extends React.Component<Props, State> {
                             <span className="icon"><BookmarkIcon bookmark={bookmark}/></span>
                             <span>{bookmark.name}</span>
                         </a>
-                        {isEditMode && <Action bookmark={bookmark} onSave={onSave}/>}
+                        {isEditMode && <Action bookmark={bookmark} onSave={onSave} onDelete={onDelete}/>}
                     </div>
                 </div>
             </div>
