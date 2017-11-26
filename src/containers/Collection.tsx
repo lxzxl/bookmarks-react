@@ -86,7 +86,16 @@ export default class Collection extends React.Component<Props, State> {
     }
 
     handleAction = (action: ActionType) => {
-        console.log(action);
+        switch (action) {
+            case ActionType.Save: // sync save to api
+                console.log('save');
+                break;
+            case ActionType.Delete: // sync delete to api.
+                console.log('delete');
+                break;
+            default:
+                console.log('nothing');
+        }
         this.setState({
             isEditMode: !this.state.isEditMode
         });
