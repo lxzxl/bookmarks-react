@@ -4,7 +4,7 @@ import Footer from '../components/Footer';
 import Main from './Main';
 import Login from './Login';
 
-import {auth} from '../api';
+import {AuthApi} from '../api';
 
 interface State {
     isLogin: boolean;
@@ -20,7 +20,7 @@ class App extends React.Component<{}, State> {
     }
 
     handleLogin = (isAnon: boolean, data: { email: string, password: string }) => {
-        (isAnon ? auth.signInAnonymously() : auth.signIn(data.email, data.password)).then(
+        (isAnon ? AuthApi.signInAnonymously() : AuthApi.signIn(data.email, data.password)).then(
             () => {
                 this.setState({
                     isLogin: true

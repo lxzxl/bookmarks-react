@@ -1,17 +1,19 @@
 import * as React from 'react';
 import * as Icons from 'react-feather';
 import clone from 'lodash/clone';
+import {CollectionsApi} from '../api/index';
 import Actions, {ActionType} from '../components/Actions';
 import Bookmark from './Bookmark';
 import {show as createBookmarkModal} from './BookmarkModal';
 
 interface Props {
-    title: string;
-    bookmarks: BookmarkModel[];
+    path: string;
+    collection: CollectionModel;
 }
 
-interface State extends Props {
+interface State {
     isEditMode: boolean;
+    collection: CollectionModel;
 }
 
 function AddBookmark(props: { onAdd(): void; }) {
@@ -31,21 +33,26 @@ function AddBookmark(props: { onAdd(): void; }) {
 }
 
 export default class Collection extends React.Component<Props, State> {
-    private titleInput: HTMLInputElement;
-
     constructor(props: Props) {
         super(props);
-        const {bookmarks = [], title} = this.props;
         this.state = {
             isEditMode: false,
+            collection: this.getInitCollection()
+        };
+    }
+
+    getInitCollection(): CollectionModel {
+        const {bookmarks = [], title} = this.props.collection;
+        return {
             title,
-            bookmarks: clone(bookmarks),
+            bookmarks: clone(bookmarks)
         };
     }
 
     render() {
         let isEditMode = this.state.isEditMode;
-        const {bookmarks} = this.state;
+        const {title: initTitle} = this.props.collection;
+        const {title, bookmarks} = this.state.collection;
         return (
             <div className="box Collection">
                 <div className="level is-mobile">
@@ -54,15 +61,15 @@ export default class Collection extends React.Component<Props, State> {
                             isEditMode ?
                                 <div className="field">
                                     <p className="control has-icons-left">
-                                        <input className="input" type="text" placeholder={this.props.title}
-                                               ref={(input: HTMLInputElement) => this.titleInput = input}/>
+                                        <input className="input" type="text" placeholder={initTitle}
+                                               value={title} onChange={this.handleTitleChange}/>
                                         <span className="icon is-small is-left"><Icons.Book/></span>
                                     </p>
                                 </div>
                                 :
                                 <p className="title is-4">
                                     <span className="icon"><Icons.Book/></span>
-                                    <span>{this.props.title}</span>
+                                    <span>{title}</span>
                                 </p>
                         }
                     </div>
@@ -85,20 +92,37 @@ export default class Collection extends React.Component<Props, State> {
         );
     }
 
-    handleAction = (action: ActionType) => {
-        switch (action) {
-            case ActionType.Save: // sync save to api
-                console.log('save');
-                break;
-            case ActionType.Delete: // sync delete to api.
-                console.log('delete');
-                break;
-            default:
-                console.log('nothing');
-        }
+    handleTitleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+        const val = event.target.value;
+        this.setState((prevState) => ({
+            collection: {
+                title: val,
+                bookmarks: prevState.collection.bookmarks
+            }
+        }));
+    }
+
+    handleAction = async (action: ActionType) => {
         this.setState({
             isEditMode: !this.state.isEditMode
         });
+
+        const {path} = this.props;
+        switch (action) {
+            case ActionType.Save: // sync save to api
+                console.log('save');
+                await CollectionsApi.update(path, this.state.collection);
+                break;
+            case ActionType.Delete: // sync delete to api.
+                console.log('delete');
+                await CollectionsApi.remove(path);
+                break;
+            default:
+                console.log('nothing');
+                this.setState({
+                    collection: this.getInitCollection()
+                });
+        }
     }
 
     addBookmark = () => {
@@ -115,7 +139,7 @@ export default class Collection extends React.Component<Props, State> {
 
     saveBookmark = (bookmark: BookmarkModel) => {
         this.setState((prevState: State) => {
-            const oldBookmarks = prevState.bookmarks;
+            const oldBookmarks = prevState.collection.bookmarks;
             let newBookmarks;
             if (bookmark.id) {
                 newBookmarks = oldBookmarks.map(b => {
@@ -136,7 +160,7 @@ export default class Collection extends React.Component<Props, State> {
             if (!bookmark.id) {
                 return;
             }
-            const oldBookmarks = prevState.bookmarks;
+            const oldBookmarks = prevState.collection.bookmarks;
             let newBookmarks;
             if (bookmark.id) {
                 newBookmarks = oldBookmarks.filter(b => {

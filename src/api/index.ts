@@ -1,12 +1,12 @@
 import * as wilddog from 'wilddog';
 import Auth from './auth';
-import Bookmark from './bookmark';
+import Collections from './collections';
 
 const config = {
-    syncURL: 'https://startme.wilddogio.com',
+    syncURL: 'https://wd2170735258enospc.wilddogio.com',
     websocketOnly: false,
-    authDomain: 'startme.wilddog.com'
+    authDomain: 'wd2170735258enospc.wilddog.com'
 };
 const app = wilddog.initializeApp(config);
-export const auth = new Auth(app);
-export const bookmark = new Bookmark(app);
+export const AuthApi = new Auth(app);
+export const CollectionsApi = new Collections(app);

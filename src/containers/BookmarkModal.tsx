@@ -25,9 +25,9 @@ export class BookmarkModal extends React.Component<Props, State> {
         onSave(this.state);
     }
 
-    handleChangeFor = (propertyName: keyof State) => (event: React.SyntheticEvent<HTMLInputElement>) => {
+    handleChangeFor = (propertyName: keyof State): React.ChangeEventHandler<HTMLInputElement> => (event) => {
         /* tslint:disable: no-any */
-        this.setState({[propertyName as any]: event.currentTarget.value});
+        this.setState({[propertyName as any]: event.target.value});
     }
 
     render() {

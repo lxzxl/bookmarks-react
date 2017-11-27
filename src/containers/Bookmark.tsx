@@ -90,9 +90,9 @@ export default class Bookmark extends React.Component<Props, State> {
         };
     }
 
-    handleClick = (e: React.SyntheticEvent<EventTarget>) => {
+    handleClick: React.MouseEventHandler<HTMLAnchorElement> = (event) => {
         if (this.props.isEditMode) {
-            e.preventDefault();
+            event.preventDefault();
         }
     }
 

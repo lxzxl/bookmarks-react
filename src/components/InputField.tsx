@@ -11,7 +11,7 @@ interface Props {
     validators?: Array<validator>;
 
     val: string;
-    handleChange(event: React.SyntheticEvent<HTMLInputElement>): void;
+    handleChange: React.ChangeEventHandler<HTMLInputElement>;
 }
 
 interface State {
@@ -51,11 +51,11 @@ export class InputField extends React.Component<Props, State> {
         );
     }
 
-    handleChange = (e: React.SyntheticEvent<HTMLInputElement>) => {
+    handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
         if (this.isRequired) {
-            this.setState({hasError: !e.currentTarget.value});
+            this.setState({hasError: !event.target.value});
         }
 
-        this.props.handleChange(e);
+        this.props.handleChange(event);
     }
 }

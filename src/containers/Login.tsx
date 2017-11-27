@@ -19,8 +19,8 @@ export default class Login extends React.Component<Props, State> {
         };
     }
 
-    handleInputChange = (event: React.SyntheticEvent<HTMLInputElement>) => {
-        const target = event.target as HTMLInputElement;
+    handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+        const target = event.target;
         // Temp fix.
         this.setState(() => ({
             [target.name]: target.value
