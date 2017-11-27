@@ -110,15 +110,12 @@ export default class Collection extends React.Component<Props, State> {
         const {path} = this.props;
         switch (action) {
             case ActionType.Save: // sync save to api
-                console.log('save');
                 await CollectionsApi.update(path, this.state.collection);
                 break;
             case ActionType.Delete: // sync delete to api.
-                console.log('delete');
                 await CollectionsApi.remove(path);
                 break;
             default:
-                console.log('nothing');
                 this.setState({
                     collection: this.getInitCollection()
                 });
