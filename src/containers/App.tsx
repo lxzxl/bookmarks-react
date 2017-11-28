@@ -1,10 +1,11 @@
 import * as React from 'react';
+import * as wilddog from 'wilddog';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Main from './Main';
 import Login from './Login';
 
-import {AuthApi} from '../api';
+import {app, AuthApi, CollectionsApi} from '../api';
 
 interface State {
     isLogin: boolean;
@@ -14,27 +15,23 @@ class App extends React.Component<{}, State> {
     constructor(props: {}) {
         super(props);
         this.state = {
-            isLogin: true
+            isLogin: !!app.auth().currentUser
         };
-
     }
 
-    handleLogin = (isAnon: boolean, data: { email: string, password: string }) => {
-        (isAnon ? AuthApi.signInAnonymously() : AuthApi.signIn(data.email, data.password)).then(
-            () => {
-                this.setState({
-                    isLogin: true
-                });
-            }
-        ).catch(err => {
-            console.log(err);
+    stopAuthStateListener?(): void;
+
+    componentDidMount() {
+        this.stopAuthStateListener = app.auth().onAuthStateChanged((user: wilddog.User) => {
+            CollectionsApi.setRef();
+            this.setState({isLogin: !!user});
         });
     }
 
-    handleLogout = () => {
-        this.setState({
-            isLogin: false
-        });
+    componentWillUnmount() {
+        if (this.stopAuthStateListener) {
+            this.stopAuthStateListener();
+        }
     }
 
     render() {
@@ -46,9 +43,22 @@ class App extends React.Component<{}, State> {
                     <Main/>
                     <Footer/>
                 </div>
-            )
-            :
-            (<Login doLogin={this.handleLogin}/>);
+            ) : <Login doLogin={this.handleLogin}/>;
+    }
+
+    handleLogin = async (isAnon: boolean, data: { email: string, password: string }) => {
+        try {
+            await isAnon ? AuthApi.signInAnonymously() : AuthApi.signIn(data.email, data.password);
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    handleLogout = async () => {
+        await AuthApi.signOut();
+        this.setState({
+            isLogin: false
+        });
     }
 }
 

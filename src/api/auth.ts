@@ -1,32 +1,35 @@
 import * as wilddog from 'wilddog';
 
 export default class Auth {
+    private app: wilddog.app.App;
     private auth: wilddog.auth.Auth;
 
     constructor(app: wilddog.app.App) {
+        this.app = app;
         this.auth = app.auth();
     }
 
-    signInAnonymously() {
-        return this.auth.signInAnonymously().then(function(user: {}) {
-            console.log(user);
-        }).catch(function(err: Error) {
+    async signInAnonymously() {
+        try {
+            await this.auth.signInAnonymously();
+            this.app.sync().goOnline();
+        } catch (err) {
             throw(err);
-        });
+        }
     }
 
-    signIn(email: string, pwd: string) {
-        return this.auth.signInWithEmailAndPassword(email, pwd)
-            .then(function() {
-                console.info('login success, currentUser->', wilddog.auth().currentUser);
-            }).catch(function(err: Error) {
-                throw(err);
-            });
+    async signIn(email: string, pwd: string) {
+        try {
+            await this.auth.signInWithEmailAndPassword(email, pwd);
+            this.app.sync().goOnline();
+        } catch (err) {
+            throw(err);
+        }
     }
 
-    signOut() {
-        return this.auth.signOut().then(function() {
-            console.info('user sign out.');
-        });
+    async signOut() {
+        await this.auth.signOut();
+        this.app.sync().goOffline();
+        console.info('user sign out.');
     }
 }

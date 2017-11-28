@@ -1,7 +1,14 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import * as Icons from 'react-feather';
+import findKey from 'lodash/findKey';
 import * as Modal from '../components/Modal';
 import {Rules, InputField as Input} from '../components/InputField';
+
+const IconNamesMapping: { [K in Icons]: string } = {};
+Object.keys(Icons).forEach(iconName => {
+    IconNamesMapping[iconName] = iconName.toLowerCase();
+});
 
 interface Props {
     bookmark: BookmarkModel;
@@ -11,6 +18,7 @@ interface Props {
 }
 
 interface State extends BookmarkModel {
+    FoundIcon?: typeof Icons;
 }
 
 export class BookmarkModal extends React.Component<Props, State> {
@@ -21,27 +29,38 @@ export class BookmarkModal extends React.Component<Props, State> {
 
     beforeSave = () => {
         const {onSave} = this.props;
-        console.log(this.state);
         onSave(this.state);
     }
 
     handleChangeFor = (propertyName: keyof State): React.ChangeEventHandler<HTMLInputElement> => (event) => {
         /* tslint:disable: no-any */
-        this.setState({[propertyName as any]: event.target.value});
+        const value = event.target.value;
+        this.setState({[propertyName as any]: value});
+        if (propertyName === 'name') {
+            const searchName = (value || '').toLowerCase();
+            const foundName = findKey(IconNamesMapping, n => n === searchName);
+            this.setState({
+                FoundIcon: foundName ? Icons[foundName] : undefined
+            });
+        }
     }
 
     render() {
         const {onCancel, onClose} = this.props;
+        const {FoundIcon} = this.state;
         return (
-            <Modal.Container title="Edit" classNames="bookmark" onSave={this.beforeSave} onCancel={onCancel}
-                             onClose={onClose}>
+            <Modal.Container title="Edit" classNames="BookmarkModal bookmark"
+                             onSave={this.beforeSave} onCancel={onCancel} onClose={onClose}>
                 <div className="field is-horizontal">
                     <div className="field-label is-normal">
                         <label className="label">Name</label>
                     </div>
                     <div className="field-body">
-                        <Input val={this.state.name} handleChange={this.handleChangeFor('name')}
-                               rules={[Rules.Required]}/>
+                        <Input val={this.state.name}
+                               handleChange={this.handleChangeFor('name')} rules={[Rules.Required]}/>
+                        {FoundIcon && <label className="checkbox field-label is-normal icon-checkbox">
+                            <input type="checkbox"/> Use Icon {<FoundIcon/>}
+                        </label>}
                     </div>
                 </div>
                 <div className="field is-horizontal">
@@ -51,14 +70,6 @@ export class BookmarkModal extends React.Component<Props, State> {
                     <div className="field-body">
                         <Input val={this.state.url} handleChange={this.handleChangeFor('url')}
                                rules={[Rules.Required]}/>
-                    </div>
-                </div>
-                <div className="field is-horizontal">
-                    <div className="field-label is-normal">
-                        <label className="label">Icon Name</label>
-                    </div>
-                    <div className="field-body">
-                        <Input val={this.state.iconName} handleChange={this.handleChangeFor('iconName')}/>
                     </div>
                 </div>
                 <div className="field is-horizontal">

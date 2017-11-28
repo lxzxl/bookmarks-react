@@ -21,7 +21,6 @@ export default class Main extends React.Component<Props, State> {
 
     componentDidMount() {
         CollectionsApi.register((collections: CollectionList) => {
-            console.log('value');
             this.setState({
                 collections
             });

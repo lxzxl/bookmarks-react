@@ -7,6 +7,7 @@ export enum Rules {
 type validator = () => boolean;
 
 interface Props {
+    classNames?: string;
     rules?: Array<Rules>;
     validators?: Array<validator>;
 
@@ -35,11 +36,11 @@ export class InputField extends React.Component<Props, State> {
     }
 
     render() {
-        const {val} = this.props;
+        const {classNames, val} = this.props;
         const {hasError} = this.state;
         const errorCLass = hasError && 'is-danger' || '';
         return (
-            <div className="field">
+            <div className={`field ${classNames || ''}`}>
                 <div className="control">
                     <input className={`input ${errorCLass}`} type="text" name={name} value={val}
                            onChange={this.handleChange}/>

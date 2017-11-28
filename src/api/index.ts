@@ -7,6 +7,7 @@ const config = {
     websocketOnly: false,
     authDomain: 'wd2170735258enospc.wilddog.com'
 };
-const app = wilddog.initializeApp(config);
+
+export const app = wilddog.initializeApp(config);
 export const AuthApi = new Auth(app);
 export const CollectionsApi = new Collections(app);

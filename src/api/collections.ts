@@ -1,10 +1,20 @@
 import * as wilddog from 'wilddog';
 
-export default class Bookmark {
+export default class {
+    private app: wilddog.app.App;
     private ref: wilddog.sync.Reference;
 
     constructor(app: wilddog.app.App) {
-        this.ref = app.sync().ref('collections');
+        this.app = app;
+        this.setRef();
+    }
+
+    setRef() {
+        const user = this.app.auth().currentUser;
+        if (!user) {
+            return;
+        }
+        this.ref = this.app.sync().ref(`${user.uid}`).child('collections');
     }
 
     register(callback: (data: CollectionList) => void) {
