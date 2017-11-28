@@ -46,7 +46,7 @@ export default class Main extends React.Component<Props, State> {
     }
 
     onAdd = () => {
-        const newCollection = {
+        const newCollection: CollectionModel = {
             title: 'test',
             bookmarks: [{
                 id: Date.now(),
@@ -54,7 +54,8 @@ export default class Main extends React.Component<Props, State> {
                 url: 'http://twitter.com',
                 iconName: 'Twitter',
                 iconUrl: 'https://abs-0.twimg.com/responsive-web/web/ltr/icon-ios.a9cd885bccbcaf2f.png'
-            }]
+            }],
+            newBookmarks: []
         };
         CollectionsApi.add(newCollection);
 

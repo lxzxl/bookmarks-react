@@ -40,6 +40,7 @@ export default class {
     }
 
     update(key: string, collection: CollectionModel) {
+        const {bookmarks, newBookmarks} = collection;
         return this.ref.child(key).set(collection);
     }
 

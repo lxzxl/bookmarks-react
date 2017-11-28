@@ -45,14 +45,15 @@ export default class Collection extends React.Component<Props, State> {
         const {bookmarks = [], title} = this.props.collection;
         return {
             title,
-            bookmarks: clone(bookmarks)
+            bookmarks: clone(bookmarks),
+            newBookmarks: []
         };
     }
 
     render() {
         let isEditMode = this.state.isEditMode;
         const {title: initTitle} = this.props.collection;
-        const {title, bookmarks} = this.state.collection;
+        const {title, bookmarks, newBookmarks} = this.state.collection;
         return (
             <div className="box Collection">
                 <div className="level is-mobile">
@@ -80,7 +81,7 @@ export default class Collection extends React.Component<Props, State> {
                 <div className="content">
                     <div className="columns is-mobile is-multiline">
                         {
-                            bookmarks.map((bookmark) => {
+                            [...bookmarks, ...newBookmarks].map((bookmark) => {
                                 return <Bookmark key={bookmark.url} bookmark={bookmark} isEditMode={isEditMode}
                                                  onSave={this.saveBookmark} onDelete={this.deleteBookmark}/>;
                             })
@@ -136,18 +137,19 @@ export default class Collection extends React.Component<Props, State> {
 
     saveBookmark = (bookmark: BookmarkModel) => {
         this.setState((prevState: State) => {
-            const oldBookmarks = prevState.collection.bookmarks;
-            let newBookmarks;
+            const {bookmarks: oldBookmarks, newBookmarks} = prevState.collection;
+            // modify bookmark
             if (bookmark.id) {
-                newBookmarks = oldBookmarks.map(b => {
-                    return b.id === bookmark.id ? bookmark : b;
-                });
-            } else {
-                bookmark.id = Date.now();
-                newBookmarks = [...oldBookmarks, bookmark];
+                return {
+                    bookmarks: oldBookmarks.map(b => {
+                        return b.id === bookmark.id ? bookmark : b;
+                    })
+                };
             }
+            // new added bookmark
+            bookmark.id = Date.now();
             return {
-                bookmarks: newBookmarks
+                newBookmarks: [...newBookmarks, bookmark]
             };
         });
     }

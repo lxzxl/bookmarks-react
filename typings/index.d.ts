@@ -8,6 +8,7 @@ declare global {
     interface CollectionModel {
         title: string;
         bookmarks: Array<BookmarkModel>;
+        newBookmarks: Array<BookmarkModel>;
     }
 
     type CollectionList = Array<{ key: string, collection: CollectionModel }>;

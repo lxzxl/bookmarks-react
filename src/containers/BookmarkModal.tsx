@@ -17,25 +17,29 @@ interface Props {
     onSave(bookmark: BookmarkModel): void;
 }
 
-interface State extends BookmarkModel {
+interface State {
     FoundIcon?: typeof Icons;
+    bookmark: BookmarkModel;
 }
 
 export class BookmarkModal extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
-        this.state = Object.assign({}, this.props.bookmark);
+        this.state = {bookmark: this.props.bookmark};
     }
 
     beforeSave = () => {
         const {onSave} = this.props;
-        onSave(this.state);
+        onSave(this.state.bookmark);
     }
 
-    handleChangeFor = (propertyName: keyof State): React.ChangeEventHandler<HTMLInputElement> => (event) => {
+    handleChangeFor = (propertyName: keyof BookmarkModel): React.ChangeEventHandler<HTMLInputElement> => (event) => {
         /* tslint:disable: no-any */
         const value = event.target.value;
-        this.setState({[propertyName as any]: value});
+        this.setState((prevState) => {
+            const {bookmark} = prevState;
+            return Object.assign({}, bookmark, {[propertyName as any]: value});
+        });
         if (propertyName === 'name') {
             const searchName = (value || '').toLowerCase();
             const foundName = findKey(IconNamesMapping, n => n === searchName);
@@ -47,7 +51,7 @@ export class BookmarkModal extends React.Component<Props, State> {
 
     render() {
         const {onCancel, onClose} = this.props;
-        const {FoundIcon} = this.state;
+        const {bookmark, FoundIcon} = this.state;
         return (
             <Modal.Container title="Edit" classNames="BookmarkModal bookmark"
                              onSave={this.beforeSave} onCancel={onCancel} onClose={onClose}>
@@ -56,7 +60,7 @@ export class BookmarkModal extends React.Component<Props, State> {
                         <label className="label">Name</label>
                     </div>
                     <div className="field-body">
-                        <Input val={this.state.name}
+                        <Input val={bookmark.name}
                                handleChange={this.handleChangeFor('name')} rules={[Rules.Required]}/>
                         {FoundIcon && <label className="checkbox field-label is-normal icon-checkbox">
                             <input type="checkbox"/> Use Icon {<FoundIcon/>}
@@ -68,7 +72,7 @@ export class BookmarkModal extends React.Component<Props, State> {
                         <label className="label">Url</label>
                     </div>
                     <div className="field-body">
-                        <Input val={this.state.url} handleChange={this.handleChangeFor('url')}
+                        <Input val={bookmark.url} handleChange={this.handleChangeFor('url')}
                                rules={[Rules.Required]}/>
                     </div>
                 </div>
@@ -77,7 +81,7 @@ export class BookmarkModal extends React.Component<Props, State> {
                         <label className="label">Icon Url</label>
                     </div>
                     <div className="field-body">
-                        <Input val={this.state.iconUrl} handleChange={this.handleChangeFor('iconUrl')}/>
+                        <Input val={bookmark.iconUrl} handleChange={this.handleChangeFor('iconUrl')}/>
                     </div>
                 </div>
             </Modal.Container>
