@@ -21,6 +21,7 @@ declare global {
         name: string;
         url: string;
         iconName: string;
+        useIconName?: boolean;
         iconUrl: string;
     }
 }

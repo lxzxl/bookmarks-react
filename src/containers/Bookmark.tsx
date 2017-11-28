@@ -1,6 +1,5 @@
 import * as React from 'react';
 import * as Icons from 'react-feather';
-import capitalize from 'lodash/capitalize';
 import {show as showConfirm} from '../components/Confirm';
 import {show as createBookmarkModal} from './BookmarkModal';
 
@@ -58,12 +57,11 @@ class Action extends React.Component<ActionProps, {}> {
 
 function BookmarkIcon(props: { bookmark: BookmarkModel }) {
     const {bookmark} = props;
-    if (bookmark.iconUrl) {
+    if (!bookmark.useIconName && bookmark.iconUrl) {
         return <img src={bookmark.iconUrl}/>;
     }
-    const iconLookup = bookmark.iconName && capitalize(bookmark.iconName);
-    if (iconLookup && iconLookup in Icons) {
-        const Icon = Icons[iconLookup];
+    if (bookmark.iconName && bookmark.iconName in Icons) {
+        const Icon = Icons[bookmark.iconName];
         return <Icon/>;
     }
     return (
