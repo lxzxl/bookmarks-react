@@ -35,16 +35,12 @@ export default class {
         this.ref.off(event);
     }
 
-    add(collection: CollectionData) {
+    add(collection: CollectionSchema) {
         return this.ref.push(collection);
     }
 
-    update(key: string, collection: CollectionData) {
-        const collectionSchema: CollectionSchema = {
-            title: collection.title,
-            bookmarks: [...collection.bookmarks, ...collection.newBookmarks]
-        };
-        return this.ref.child(key).update(collectionSchema);
+    update(key: string, collection: CollectionSchema) {
+        return this.ref.child(key).update(collection);
     }
 
     remove(key: string) {

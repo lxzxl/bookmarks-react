@@ -16,16 +16,11 @@ declare global {
 
     type CollectionList<T extends CollectionSchema | CollectionData> = Array<{ key: string, collection: T }>;
 
-    interface BookmarkSchema {
+    interface BookmarkModel {
         id?: number;
         name: string;
         url: string;
         iconName: string;
         iconUrl: string;
-    }
-
-    interface BookmarkModel extends BookmarkSchema {
-        id?: number;
-        isChanged?: boolean;
     }
 }

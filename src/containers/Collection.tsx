@@ -11,9 +11,8 @@ interface Props {
     collection: CollectionSchema;
 }
 
-interface State {
+interface State extends CollectionData {
     isEditMode: boolean;
-    collection: CollectionData;
 }
 
 function AddBookmark(props: { onAdd(): void; }) {
@@ -35,10 +34,9 @@ function AddBookmark(props: { onAdd(): void; }) {
 export default class Collection extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
-        this.state = {
+        this.state = Object.assign({
             isEditMode: false,
-            collection: this.getInitCollection()
-        };
+        }, this.getInitCollection());
     }
 
     getInitCollection(): CollectionData {
@@ -53,7 +51,7 @@ export default class Collection extends React.Component<Props, State> {
     render() {
         let isEditMode = this.state.isEditMode;
         const {title: initTitle} = this.props.collection;
-        const {title, bookmarks} = this.state.collection;
+        const {title, bookmarks, newBookmarks} = this.state;
         return (
             <div className="box Collection">
                 <div className="level is-mobile">
@@ -81,8 +79,14 @@ export default class Collection extends React.Component<Props, State> {
                 <div className="content">
                     <div className="columns is-mobile is-multiline">
                         {
-                            [...bookmarks].map((bookmark) => {
-                                return <Bookmark key={bookmark.url} bookmark={bookmark} isEditMode={isEditMode}
+                            bookmarks.map((bookmark) => {
+                                return <Bookmark key={bookmark.id} bookmark={bookmark} isEditMode={isEditMode}
+                                                 onSave={this.saveBookmark} onDelete={this.deleteBookmark}/>;
+                            })
+                        }
+                        {
+                            newBookmarks.map((bookmark) => {
+                                return <Bookmark key={bookmark.id} bookmark={bookmark} isEditMode={isEditMode}
                                                  onSave={this.saveBookmark} onDelete={this.deleteBookmark}/>;
                             })
                         }
@@ -98,7 +102,7 @@ export default class Collection extends React.Component<Props, State> {
         this.setState((prevState) => ({
             collection: {
                 title: val,
-                bookmarks: prevState.collection.bookmarks
+                bookmarks: prevState.bookmarks
             }
         }));
     }
@@ -111,15 +115,17 @@ export default class Collection extends React.Component<Props, State> {
         const {path} = this.props;
         switch (action) {
             case ActionType.Save: // sync save to api
-                await CollectionsApi.update(path, this.state.collection);
+                const collection: CollectionSchema = {
+                    title: this.state.title,
+                    bookmarks: this.state.bookmarks.concat(this.state.newBookmarks)
+                };
+                await CollectionsApi.update(path, collection);
                 break;
             case ActionType.Delete: // sync delete to api.
                 await CollectionsApi.remove(path);
                 break;
             default:
-                this.setState({
-                    collection: this.getInitCollection()
-                });
+                this.setState(this.getInitCollection());
         }
     }
 
@@ -137,7 +143,7 @@ export default class Collection extends React.Component<Props, State> {
 
     saveBookmark = (bookmark: BookmarkModel) => {
         this.setState((prevState: State) => {
-            const {bookmarks: oldBookmarks, newBookmarks} = prevState.collection;
+            const {bookmarks: oldBookmarks, newBookmarks} = prevState;
             // modify bookmark
             if (bookmark.id) {
                 return {
@@ -159,7 +165,7 @@ export default class Collection extends React.Component<Props, State> {
             if (!bookmark.id) {
                 return;
             }
-            const oldBookmarks = prevState.collection.bookmarks;
+            const oldBookmarks = prevState.bookmarks;
             let newBookmarks;
             if (bookmark.id) {
                 newBookmarks = oldBookmarks.filter(b => {
