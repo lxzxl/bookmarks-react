@@ -8,12 +8,12 @@ import {show as createBookmarkModal} from './BookmarkModal';
 
 interface Props {
     path: string;
-    collection: CollectionModel;
+    collection: CollectionSchema;
 }
 
 interface State {
     isEditMode: boolean;
-    collection: CollectionModel;
+    collection: CollectionData;
 }
 
 function AddBookmark(props: { onAdd(): void; }) {
@@ -41,7 +41,7 @@ export default class Collection extends React.Component<Props, State> {
         };
     }
 
-    getInitCollection(): CollectionModel {
+    getInitCollection(): CollectionData {
         const {bookmarks = [], title} = this.props.collection;
         return {
             title,
@@ -53,7 +53,7 @@ export default class Collection extends React.Component<Props, State> {
     render() {
         let isEditMode = this.state.isEditMode;
         const {title: initTitle} = this.props.collection;
-        const {title, bookmarks, newBookmarks} = this.state.collection;
+        const {title, bookmarks} = this.state.collection;
         return (
             <div className="box Collection">
                 <div className="level is-mobile">
@@ -81,7 +81,7 @@ export default class Collection extends React.Component<Props, State> {
                 <div className="content">
                     <div className="columns is-mobile is-multiline">
                         {
-                            [...bookmarks, ...newBookmarks].map((bookmark) => {
+                            [...bookmarks].map((bookmark) => {
                                 return <Bookmark key={bookmark.url} bookmark={bookmark} isEditMode={isEditMode}
                                                  onSave={this.saveBookmark} onDelete={this.deleteBookmark}/>;
                             })

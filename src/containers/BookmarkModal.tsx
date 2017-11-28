@@ -38,7 +38,7 @@ export class BookmarkModal extends React.Component<Props, State> {
         const value = event.target.value;
         this.setState((prevState) => {
             const {bookmark} = prevState;
-            return Object.assign({}, bookmark, {[propertyName as any]: value});
+            return {bookmark: Object.assign({}, bookmark, {[propertyName as any]: value})};
         });
         if (propertyName === 'name') {
             const searchName = (value || '').toLowerCase();

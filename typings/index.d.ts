@@ -5,19 +5,27 @@ declare global {
         ref: wilddog.sync.Reference;
     }
 
-    interface CollectionModel {
+    interface CollectionSchema {
         title: string;
         bookmarks: Array<BookmarkModel>;
+    }
+
+    interface CollectionData extends CollectionSchema {
         newBookmarks: Array<BookmarkModel>;
     }
 
-    type CollectionList = Array<{ key: string, collection: CollectionModel }>;
+    type CollectionList<T extends CollectionSchema | CollectionData> = Array<{ key: string, collection: T }>;
 
-    interface BookmarkModel {
+    interface BookmarkSchema {
         id?: number;
         name: string;
         url: string;
         iconName: string;
         iconUrl: string;
+    }
+
+    interface BookmarkModel extends BookmarkSchema {
+        id?: number;
+        isChanged?: boolean;
     }
 }

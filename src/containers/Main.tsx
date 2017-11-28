@@ -8,7 +8,7 @@ interface Props {
 }
 
 interface State {
-    collections: CollectionList;
+    collections: CollectionList<CollectionSchema>;
 }
 
 export default class Main extends React.Component<Props, State> {
@@ -20,7 +20,7 @@ export default class Main extends React.Component<Props, State> {
     }
 
     componentDidMount() {
-        CollectionsApi.register((collections: CollectionList) => {
+        CollectionsApi.register((collections: CollectionList<CollectionSchema>) => {
             this.setState({
                 collections
             });
@@ -46,7 +46,7 @@ export default class Main extends React.Component<Props, State> {
     }
 
     onAdd = () => {
-        const newCollection: CollectionModel = {
+        const newCollection: CollectionData = {
             title: 'test',
             bookmarks: [{
                 id: Date.now(),

@@ -17,9 +17,9 @@ export default class {
         this.ref = this.app.sync().ref(`${user.uid}`).child('collections');
     }
 
-    register(callback: (data: CollectionList) => void) {
+    register(callback: (data: CollectionList<CollectionData>) => void) {
         this.ref.on('value', function(snapshot: wilddog.sync.DataSnapshot) {
-            const collectionList: CollectionList = [];
+            const collectionList: CollectionList<CollectionData> = [];
             snapshot.forEach((child) => {
                 collectionList.push({
                     key: child.key(),
@@ -35,13 +35,16 @@ export default class {
         this.ref.off(event);
     }
 
-    add(collection: CollectionModel) {
+    add(collection: CollectionData) {
         return this.ref.push(collection);
     }
 
-    update(key: string, collection: CollectionModel) {
-        const {bookmarks, newBookmarks} = collection;
-        return this.ref.child(key).set(collection);
+    update(key: string, collection: CollectionData) {
+        const collectionSchema: CollectionSchema = {
+            title: collection.title,
+            bookmarks: [...collection.bookmarks, ...collection.newBookmarks]
+        };
+        return this.ref.child(key).update(collectionSchema);
     }
 
     remove(key: string) {
