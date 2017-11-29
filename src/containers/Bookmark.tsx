@@ -28,9 +28,7 @@ class Action extends React.Component<ActionProps, {}> {
     edit = () => {
         createBookmarkModal({
             bookmark: this.props.bookmark,
-            onSave: () => {
-                this.props.onSave(this.props.bookmark);
-            },
+            onSave: this.props.onSave,
             onCancel() {
                 console.log('cancel');
             },
@@ -57,12 +55,12 @@ class Action extends React.Component<ActionProps, {}> {
 
 function BookmarkIcon(props: { bookmark: BookmarkModel }) {
     const {bookmark} = props;
-    if (!bookmark.useIconName && bookmark.iconUrl) {
-        return <img src={bookmark.iconUrl}/>;
-    }
-    if (bookmark.iconName && bookmark.iconName in Icons) {
+    if (bookmark.useIconName && bookmark.iconName && bookmark.iconName in Icons) {
         const Icon = Icons[bookmark.iconName];
         return <Icon/>;
+    }
+    if (bookmark.iconUrl) {
+        return <img src={bookmark.iconUrl}/>;
     }
     return (
         <Icons.Bookmark/>
@@ -77,15 +75,12 @@ interface Props {
 }
 
 interface State {
-    isShowAction: boolean;
 }
 
 export default class Bookmark extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
-        this.state = {
-            isShowAction: false
-        };
+        this.state = {};
     }
 
     handleClick: React.MouseEventHandler<HTMLAnchorElement> = (event) => {
@@ -95,7 +90,7 @@ export default class Bookmark extends React.Component<Props, State> {
     }
 
     render() {
-        const {bookmark, isEditMode, onSave, onDelete} = this.props;
+        const {isEditMode, bookmark, ...otherProps} = this.props;
 
         return (
             <div className="Bookmark column is-half-mobile is-one-third-tablet is-one-quarter-desktop">
@@ -106,7 +101,7 @@ export default class Bookmark extends React.Component<Props, State> {
                             <span className="icon"><BookmarkIcon bookmark={bookmark}/></span>
                             <span>{bookmark.name}</span>
                         </a>
-                        {isEditMode && <Action bookmark={bookmark} onSave={onSave} onDelete={onDelete}/>}
+                        {isEditMode && <Action bookmark={bookmark} {...otherProps}/>}
                     </div>
                 </div>
             </div>

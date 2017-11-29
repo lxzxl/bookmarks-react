@@ -29,7 +29,7 @@ export class BookmarkModal extends React.Component<Props, State> {
 
     beforeSave = () => {
         const {onSave} = this.props;
-        onSave(pick(this.state, Object.keys(this.props.bookmark)));
+        onSave(pick(this.state, ['id', 'name', 'url', 'iconName', 'useIconName', 'iconUrl']));
     }
 
     render() {
@@ -46,10 +46,12 @@ export class BookmarkModal extends React.Component<Props, State> {
                     <div className="field-body">
                         <Input val={name}
                                handleChange={this.handleChangeFor('name')} rules={[Rules.Required]}/>
-                        {FoundIcon && <label className="checkbox field-label is-normal icon-checkbox">
+                        {FoundIcon &&
+                        (<label className="checkbox field-label is-normal icon-checkbox">
                             <input type="checkbox" defaultChecked={!!useIconName}
                                    onChange={this.checkIcon}/> Use Icon {<FoundIcon/>}
-                        </label>}
+                        </label>)
+                        }
                     </div>
                 </div>
                 <div className="field is-horizontal">

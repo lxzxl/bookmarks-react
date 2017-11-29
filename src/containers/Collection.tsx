@@ -79,13 +79,7 @@ export default class Collection extends React.Component<Props, State> {
                 <div className="content">
                     <div className="columns is-mobile is-multiline">
                         {
-                            bookmarks.map((bookmark) => {
-                                return <Bookmark key={bookmark.id} bookmark={bookmark} isEditMode={isEditMode}
-                                                 onSave={this.saveBookmark} onDelete={this.deleteBookmark}/>;
-                            })
-                        }
-                        {
-                            newBookmarks.map((bookmark) => {
+                            [...bookmarks, ...newBookmarks].map((bookmark) => {
                                 return <Bookmark key={bookmark.id} bookmark={bookmark} isEditMode={isEditMode}
                                                  onSave={this.saveBookmark} onDelete={this.deleteBookmark}/>;
                             })
@@ -100,10 +94,8 @@ export default class Collection extends React.Component<Props, State> {
     handleTitleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
         const val = event.target.value;
         this.setState((prevState) => ({
-            collection: {
-                title: val,
-                bookmarks: prevState.bookmarks
-            }
+            title: val,
+            bookmarks: prevState.bookmarks
         }));
     }
 
@@ -142,6 +134,7 @@ export default class Collection extends React.Component<Props, State> {
     }
 
     saveBookmark = (bookmark: BookmarkModel) => {
+        console.log(bookmark.name);
         this.setState((prevState: State) => {
             const {bookmarks: oldBookmarks, newBookmarks} = prevState;
             // modify bookmark
