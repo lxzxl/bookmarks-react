@@ -1,0 +1,1 @@
+const api = 'https://icons.better-idea.org/allicons.json'
