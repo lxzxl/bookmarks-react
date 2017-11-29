@@ -18,9 +18,6 @@ class Action extends React.Component<ActionProps, {}> {
             message: 'Are you sure to remove this bookmark?',
             onConfirm: () => {
                 this.props.onDelete(bookmark);
-            },
-            onCancel() {
-                console.log('cancel');
             }
         });
     }
@@ -29,9 +26,6 @@ class Action extends React.Component<ActionProps, {}> {
         createBookmarkModal({
             bookmark: this.props.bookmark,
             onSave: this.props.onSave,
-            onCancel() {
-                console.log('cancel');
-            },
         });
     }
 

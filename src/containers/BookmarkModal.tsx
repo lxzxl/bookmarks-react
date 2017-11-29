@@ -13,8 +13,8 @@ Object.keys(Icons).forEach(iconName => {
 
 interface Props {
     bookmark: BookmarkModel;
-    onClose?: () => void;
-    onCancel?: () => void;
+    onClose?(): void;
+    onCancel?(): void;
     onSave(bookmark: BookmarkModel): void;
 }
 
@@ -77,6 +77,7 @@ export class BookmarkModal extends React.Component<Props, State> {
 
     handleChangeFor = (propertyName: keyof BookmarkModel): React.ChangeEventHandler<HTMLInputElement> => (event) => {
         const value = event.target.value;
+        /* tslint:disable:no-any */
         this.setState({[propertyName as any]: value});
         if (propertyName === 'name') {
             const searchName = (value || '').toLowerCase();
@@ -94,10 +95,7 @@ export class BookmarkModal extends React.Component<Props, State> {
 
     checkIcon: React.ChangeEventHandler<HTMLInputElement> = (event) => {
         const value = event.target.checked;
-        console.log(value);
-        this.setState((prevState) => ({
-            useIconName: value
-        }));
+        this.setState({useIconName: value});
     }
 }
 

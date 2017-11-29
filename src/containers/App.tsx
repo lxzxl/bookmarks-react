@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as wilddog from 'wilddog';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import Notification from '../components/Notification';
 import Main from './Main';
 import Login from './Login';
 
@@ -50,7 +51,7 @@ class App extends React.Component<{}, State> {
         try {
             await isAnon ? AuthApi.signInAnonymously() : AuthApi.signIn(data.email, data.password);
         } catch (err) {
-            console.log(err);
+            Notification.error(err);
         }
     }
 

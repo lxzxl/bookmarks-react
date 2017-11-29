@@ -8,7 +8,7 @@ interface Props {
     classNames?: string;
     hideFooter?: true;
     onConfirm(): void;
-    onCancel(): void;
+    onCancel?(): void;
 }
 
 export class Confirm extends React.Component<Props, {}> {

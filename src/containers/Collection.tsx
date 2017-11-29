@@ -3,6 +3,7 @@ import * as Icons from 'react-feather';
 import clone from 'lodash/clone';
 import {CollectionsApi} from '../api/index';
 import Actions, {ActionType} from '../components/Actions';
+import Notification from '../components/Notification';
 import Bookmark from './Bookmark';
 import {show as createBookmarkModal} from './BookmarkModal';
 
@@ -34,9 +35,12 @@ function AddBookmark(props: { onAdd(): void; }) {
 export default class Collection extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
-        this.state = Object.assign({
-            isEditMode: false,
-        }, this.getInitCollection());
+        this.state = Object.assign(
+            {
+                isEditMode: false,
+            },
+            this.getInitCollection()
+        );
     }
 
     getInitCollection(): CollectionData {
@@ -112,9 +116,11 @@ export default class Collection extends React.Component<Props, State> {
                     bookmarks: this.state.bookmarks.concat(this.state.newBookmarks)
                 };
                 await CollectionsApi.update(path, collection);
+                Notification.success('Collections updated!');
                 break;
             case ActionType.Delete: // sync delete to api.
                 await CollectionsApi.remove(path);
+                Notification.success('Collections deleted!');
                 break;
             default:
                 this.setState(this.getInitCollection());
@@ -134,7 +140,6 @@ export default class Collection extends React.Component<Props, State> {
     }
 
     saveBookmark = (bookmark: BookmarkModel) => {
-        console.log(bookmark.name);
         this.setState((prevState: State) => {
             const {bookmarks: oldBookmarks, newBookmarks} = prevState;
             // modify bookmark

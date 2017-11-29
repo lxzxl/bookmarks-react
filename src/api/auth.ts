@@ -30,6 +30,5 @@ export default class Auth {
     async signOut() {
         await this.auth.signOut();
         this.app.sync().goOffline();
-        console.info('user sign out.');
     }
 }
