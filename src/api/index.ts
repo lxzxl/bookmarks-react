@@ -1,11 +1,12 @@
 import * as wilddog from 'wilddog';
+import {appID} from '../config/wilddog';
 import Auth from './auth';
 import Collections from './collections';
 
 const config = {
-    syncURL: 'https://wd2170735258enospc.wilddogio.com',
+    syncURL: `https://${appID}.wilddogio.com`,
     websocketOnly: false,
-    authDomain: 'wd2170735258enospc.wilddog.com'
+    authDomain: `${appID}.wilddog.com`
 };
 
 export const app = wilddog.initializeApp(config);

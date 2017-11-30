@@ -78,7 +78,7 @@ export default class Bookmark extends React.Component<Props, State> {
     }
 
     handleClick: React.MouseEventHandler<HTMLAnchorElement> = (event) => {
-        if (this.props.isEditMode) {
+        if (this.props.isEditMode || !this.props.bookmark.url) {
             event.preventDefault();
         }
     }
