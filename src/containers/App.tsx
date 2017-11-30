@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as wilddog from 'wilddog';
+import wilddog from 'wilddog';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Notification from '../components/Notification';

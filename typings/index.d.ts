@@ -1,4 +1,4 @@
-import * as wilddog from 'wilddog';
+import wilddog from 'wilddog';
 
 declare global {
     interface Window {

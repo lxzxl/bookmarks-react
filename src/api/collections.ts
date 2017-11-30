@@ -1,4 +1,4 @@
-import * as wilddog from 'wilddog';
+import wilddog from 'wilddog';
 
 export default class {
     private app: wilddog.app.App;

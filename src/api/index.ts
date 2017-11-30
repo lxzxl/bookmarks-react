@@ -1,4 +1,4 @@
-import * as wilddog from 'wilddog';
+import wilddog from 'wilddog';
 import {appID} from '../config/wilddog';
 import Auth from './auth';
 import Collections from './collections';
