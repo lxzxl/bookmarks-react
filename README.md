@@ -1,4 +1,4 @@
-# Bookmark collection page
+# Bookmark collection page [![Build Status](https://travis-ci.org/lxzxl/bookmarks-react.svg?branch=master)](https://travis-ci.org/lxzxl/bookmarks-react)
 
 > A bookmark collection page.
 
