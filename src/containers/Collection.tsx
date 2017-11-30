@@ -5,6 +5,7 @@ import {CollectionsApi} from '../api/index';
 import Actions, {ActionType} from '../components/Actions';
 import Notification from '../components/Notification';
 import Bookmark from './Bookmark';
+import {show as showConfirm} from '../components/Confirm';
 import {show as createBookmarkModal} from './BookmarkModal';
 
 interface Props {
@@ -119,8 +120,13 @@ export default class Collection extends React.Component<Props, State> {
                 Notification.success('Collections updated!');
                 break;
             case ActionType.Delete: // sync delete to api.
-                await CollectionsApi.remove(path);
-                Notification.success('Collections deleted!');
+                showConfirm({
+                    message: 'Are you sure to remove this collection?',
+                    onConfirm: async () => {
+                        await CollectionsApi.remove(path);
+                        Notification.success('Collection deleted!');
+                    }
+                });
                 break;
             default:
                 this.setState(this.getInitCollection());

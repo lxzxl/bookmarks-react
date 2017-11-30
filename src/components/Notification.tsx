@@ -42,7 +42,7 @@ const defaultOptions: Partial<Options> = {
     position: defaultPosition,
     theme: '',
     closable: false,
-    duration: null,
+    duration: 3,
     style: {},
 };
 
