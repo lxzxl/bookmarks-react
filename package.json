@@ -1,7 +1,7 @@
 {
   "name": "my-app",
   "version": "0.1.0",
-  "private": true,
+  "homepage": "https://lxzxl.github.io/bookmarks-react/",
   "dependencies": {
     "@types/jest": "^20.0.7",
     "@types/lodash": "^4.14.74",
