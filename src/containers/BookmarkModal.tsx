@@ -4,7 +4,7 @@ import * as Icons from 'react-feather';
 import findKey from 'lodash/findKey';
 import pick from 'lodash/pick';
 import * as Modal from '../components/Modal';
-import {Rules, InputField as Input} from '../components/InputField';
+import {Rules, InputField} from '../components/InputField';
 
 const IconNamesMapping: { [K in Icons]: string } = {};
 Object.keys(Icons).forEach(iconName => {
@@ -44,14 +44,14 @@ export class BookmarkModal extends React.Component<Props, State> {
                         <label className="label">Name</label>
                     </div>
                     <div className="field-body">
-                        <Input val={name}
-                               handleChange={this.handleChangeFor('name')} rules={[Rules.Required]}/>
-                        {FoundIcon &&
-                        (<label className="checkbox field-label is-normal icon-checkbox">
-                            <input type="checkbox" defaultChecked={!!useIconName}
-                                   onChange={this.checkIcon}/> Use Icon {<FoundIcon/>}
-                        </label>)
-                        }
+                        <InputField value={name} rules={[Rules.Required]}
+                                    handleChange={this.handleChangeFor('name')}/>
+                        {FoundIcon && (
+                            <label className="checkbox field-label is-normal icon-checkbox">
+                                <input type="checkbox" defaultChecked={!!useIconName}
+                                       onChange={this.checkIcon}/> Use Icon {<FoundIcon/>}
+                            </label>
+                        )}
                     </div>
                 </div>
                 <div className="field is-horizontal">
@@ -59,8 +59,8 @@ export class BookmarkModal extends React.Component<Props, State> {
                         <label className="label">Url</label>
                     </div>
                     <div className="field-body">
-                        <Input val={url} handleChange={this.handleChangeFor('url')}
-                               rules={[Rules.Required]}/>
+                        <InputField value={url} handleChange={this.handleChangeFor('url')}
+                                    rules={[Rules.Required]}/>
                     </div>
                 </div>
                 <div className="field is-horizontal">
@@ -68,7 +68,7 @@ export class BookmarkModal extends React.Component<Props, State> {
                         <label className="label">Icon Url</label>
                     </div>
                     <div className="field-body">
-                        <Input val={iconUrl} handleChange={this.handleChangeFor('iconUrl')}/>
+                        <InputField value={iconUrl} handleChange={this.handleChangeFor('iconUrl')}/>
                     </div>
                 </div>
             </Modal.Container>

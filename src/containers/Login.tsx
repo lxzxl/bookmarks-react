@@ -1,14 +1,21 @@
 import * as React from 'react';
 import * as Icons from 'react-feather';
 import clone from 'lodash/clone';
+import pick from 'lodash/pick';
+import Notification from '../components/Notification';
+import {Rules, InputField} from '../components/InputField';
+
+interface Account {
+    email: string;
+    password: string;
+}
 
 interface Props {
     doLogin(data?: State): void;
 }
 
-interface State {
-    email: string;
-    password: string;
+interface State extends Account {
+    hasError: boolean;
 }
 
 const demoAccount = {
@@ -17,7 +24,7 @@ const demoAccount = {
 };
 
 export default class Login extends React.Component<Props, State> {
-    static getDefaultState(): State {
+    static getDefaultAccount(): Account {
         const lastEmail = localStorage.getItem('lastEmail');
         if (lastEmail) {
             return {
@@ -30,7 +37,11 @@ export default class Login extends React.Component<Props, State> {
 
     constructor(props: Props) {
         super(props);
-        this.state = Login.getDefaultState();
+        this.state = {hasError: false, ...Login.getDefaultAccount()};
+    }
+
+    pickAccount() {
+        return pick(this.state, ['email', 'password']);
     }
 
     handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
@@ -50,30 +61,26 @@ export default class Login extends React.Component<Props, State> {
                         <p className="title is-4">Please login ...</p>
                         <div className="columns is-mobile is-marginless is-multiline">
                             <div className="column is-full-mobile is-half-tablet">
-                                <div className="field">
-                                    <p className="control has-icons-left">
-                                        <input name="email" className="input" type="email" placeholder="Email"
-                                               value={this.state.email}
-                                               onChange={e => this.handleInputChange(e)}
-                                               onKeyUp={this.beforeLogin}/>
-                                        <span className="icon is-small is-left">
-                                            <Icons.Mail/>
-                                        </span>
-                                    </p>
-                                </div>
+                                <InputField fieldClass={''} controlClass={'has-icons-left'}
+                                            name="email" type="email" placeholder="Email"
+                                            PreIcon={Icons.Mail}
+                                            value={this.state.email}
+                                            rules={[Rules.Required]}
+                                            handleChange={e => this.handleInputChange(e)}
+                                            handleKeyUp={this.handleKeyUp}
+                                            checkValidateStatus={this.checkValidateStatus}
+                                />
                             </div>
                             <div className="column is-full-mobile is-half-tablet">
-                                <div className="field">
-                                    <p className="control has-icons-left">
-                                        <input name="password" className="input" type="password" placeholder="Password"
-                                               value={this.state.password}
-                                               onChange={e => this.handleInputChange(e)}
-                                               onKeyUp={this.beforeLogin}/>
-                                        <span className="icon is-small is-left">
-                                          <Icons.Lock/>
-                                        </span>
-                                    </p>
-                                </div>
+                                <InputField fieldClass={''} controlClass={'has-icons-left'}
+                                            name="password" type="password" placeholder="Password"
+                                            PreIcon={Icons.Lock}
+                                            value={this.state.password}
+                                            rules={[Rules.Required]}
+                                            handleChange={e => this.handleInputChange(e)}
+                                            handleKeyUp={this.handleKeyUp}
+                                            checkValidateStatus={this.checkValidateStatus}
+                                />
                             </div>
                             <div className="column">
                                 <div className="field is-grouped is-grouped-right">
@@ -96,12 +103,26 @@ export default class Login extends React.Component<Props, State> {
         );
     }
 
-    beforeLogin = (e: React.KeyboardEvent<HTMLInputElement> | React.MouseEvent<HTMLButtonElement>): void => {
+    handleKeyUp: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
+        if (e.key === 'Enter') {
+            this.props.doLogin(this.state);
+        }
+    }
+
+    beforeLogin = (e?: React.MouseEvent<HTMLButtonElement>): void => {
+        if (!this.state.hasError) {
+            Notification.error('Please check all error inputs!');
+            return;
+        }
         const {email} = this.state;
         const {doLogin} = this.props;
         if (email) {
             localStorage.setItem('lastEmail', email);
         }
         doLogin(this.state);
+    }
+
+    checkValidateStatus = (isValid) => {
+        this.setState({hasError: isValid});
     }
 }
