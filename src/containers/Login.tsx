@@ -35,7 +35,6 @@ export default class Login extends React.Component<Props, State> {
 
     handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
         const target = event.target;
-        // Temp fix.
         this.setState(() => ({
             [target.name]: target.value
         }));
@@ -55,7 +54,8 @@ export default class Login extends React.Component<Props, State> {
                                     <p className="control has-icons-left">
                                         <input name="email" className="input" type="email" placeholder="Email"
                                                value={this.state.email}
-                                               onChange={e => this.handleInputChange(e)}/>
+                                               onChange={e => this.handleInputChange(e)}
+                                               onKeyUp={this.beforeLogin}/>
                                         <span className="icon is-small is-left">
                                             <Icons.Mail/>
                                         </span>
@@ -67,7 +67,8 @@ export default class Login extends React.Component<Props, State> {
                                     <p className="control has-icons-left">
                                         <input name="password" className="input" type="password" placeholder="Password"
                                                value={this.state.password}
-                                               onChange={e => this.handleInputChange(e)}/>
+                                               onChange={e => this.handleInputChange(e)}
+                                               onKeyUp={this.beforeLogin}/>
                                         <span className="icon is-small is-left">
                                           <Icons.Lock/>
                                         </span>
@@ -77,7 +78,7 @@ export default class Login extends React.Component<Props, State> {
                             <div className="column">
                                 <div className="field is-grouped is-grouped-right">
                                     <div className="control">
-                                        <button className="login button is-success" onClick={e => this.beforeLogin()}>
+                                        <button className="login button is-success" onClick={this.beforeLogin}>
                                             Login
                                         </button>
                                     </div>
@@ -95,7 +96,7 @@ export default class Login extends React.Component<Props, State> {
         );
     }
 
-    beforeLogin = () => {
+    beforeLogin = (e: React.KeyboardEvent<HTMLInputElement> | React.MouseEvent<HTMLButtonElement>): void => {
         const {email} = this.state;
         const {doLogin} = this.props;
         if (email) {
