@@ -47,9 +47,9 @@ class App extends React.Component<{}, State> {
             ) : <Login doLogin={this.handleLogin}/>;
     }
 
-    handleLogin = async (isAnon: boolean, data: { email: string, password: string }) => {
+    handleLogin = async (data?: { email: string, password: string }) => {
         try {
-            await (isAnon ? AuthApi.signInAnonymously() : AuthApi.signIn(data.email, data.password));
+            await (data ? AuthApi.signIn(data.email, data.password) : AuthApi.signInAnonymously());
             Notification.success('Welcome, you are logged in!');
         } catch (err) {
             Notification.error(err.message);

@@ -1,8 +1,9 @@
 import * as React from 'react';
 import * as Icons from 'react-feather';
+import clone from 'lodash/clone';
 
 interface Props {
-    doLogin(isAnony: boolean, data: State): void;
+    doLogin(data?: State): void;
 }
 
 interface State {
@@ -10,13 +11,26 @@ interface State {
     password: string;
 }
 
+const demoAccount = {
+    email: 'demo@demo.com',
+    password: 'demo123'
+};
+
 export default class Login extends React.Component<Props, State> {
+    static getDefaultState(): State {
+        const lastEmail = localStorage.getItem('lastEmail');
+        if (lastEmail) {
+            return {
+                email: lastEmail,
+                password: ''
+            };
+        }
+        return clone(demoAccount);
+    }
+
     constructor(props: Props) {
         super(props);
-        this.state = {
-            email: 'demo@demo.com',
-            password: 'demo123'
-        };
+        this.state = Login.getDefaultState();
     }
 
     handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
@@ -29,10 +43,6 @@ export default class Login extends React.Component<Props, State> {
 
     render() {
         const {doLogin} = this.props;
-        const data = {
-            email: this.state.email,
-            password: this.state.password
-        };
         return (
             <div className=" Login section">
                 <div className="modal is-active">
@@ -67,12 +77,12 @@ export default class Login extends React.Component<Props, State> {
                             <div className="column">
                                 <div className="field is-grouped is-grouped-right">
                                     <div className="control">
-                                        <button className="login button is-success" onClick={e => doLogin(false, data)}>
+                                        <button className="login button is-success" onClick={e => this.beforeLogin()}>
                                             Login
                                         </button>
                                     </div>
                                     <div className="control">
-                                        <button className="button is-center is-link" onClick={e => doLogin(true, data)}>
+                                        <button className="button is-center is-link" onClick={e => doLogin()}>
                                             <span className="is-size-7">Anonymous</span>
                                         </button>
                                     </div>
@@ -83,5 +93,14 @@ export default class Login extends React.Component<Props, State> {
                 </div>
             </div>
         );
+    }
+
+    beforeLogin = () => {
+        const {email} = this.state;
+        const {doLogin} = this.props;
+        if (email) {
+            localStorage.setItem('lastEmail', email);
+        }
+        doLogin(this.state);
     }
 }

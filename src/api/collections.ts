@@ -1,10 +1,9 @@
 import wilddog from 'wilddog';
 
 export default class {
-    private app: wilddog.app.App;
     private ref: wilddog.sync.Reference;
 
-    constructor(app: wilddog.app.App) {
+    constructor(private app: wilddog.app.App) {
         this.app = app;
         this.setRef();
     }

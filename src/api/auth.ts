@@ -1,10 +1,9 @@
 import wilddog from 'wilddog';
 
 export default class Auth {
-    private app: wilddog.app.App;
     private auth: wilddog.auth.Auth;
 
-    constructor(app: wilddog.app.App) {
+    constructor(private app: wilddog.app.App) {
         this.app = app;
         this.auth = app.auth();
     }
