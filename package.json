@@ -17,6 +17,7 @@
     "wilddog": "^2.5.15"
   },
   "devDependencies": {
+    "jest-localstorage-mock": "^2.1.0",
     "node-sass-chokidar": "0.0.3",
     "npm-run-all": "^4.0.2"
   },
