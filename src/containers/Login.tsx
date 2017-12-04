@@ -23,6 +23,7 @@ const demoAccount = {
 };
 
 export default class Login extends React.Component<Props, State> {
+    private inputRefs: Array<InputField> = [];
     static getDefaultAccount(): Account {
         const lastEmail = localStorage.getItem('lastEmail');
         const account = clone(demoAccount);
@@ -35,7 +36,10 @@ export default class Login extends React.Component<Props, State> {
 
     constructor(props: Props) {
         super(props);
-        this.state = { hasError: false, ...Login.getDefaultAccount() };
+        this.state = {
+            hasError: false,
+            ...Login.getDefaultAccount()
+        };
     }
 
     render() {
@@ -49,6 +53,7 @@ export default class Login extends React.Component<Props, State> {
                         <div className="columns is-mobile is-marginless is-multiline">
                             <div className="column is-full-mobile is-half-tablet">
                                 <InputField
+                                    ref={this.collectInputs}
                                     fieldClass={''}
                                     controlClass={'has-icons-left'}
                                     name="email"
@@ -57,15 +62,14 @@ export default class Login extends React.Component<Props, State> {
                                     PreIcon={Icons.Mail}
                                     value={this.state.email}
                                     rules={[Rules.Required]}
-                                    handleChange={e =>
-                                        this.handleInputChange(e)
-                                    }
+                                    handleChange={this.handleInputChange}
                                     handleKeyUp={this.handleKeyUp}
-                                    setValidateStatus={this.checkValidateStatus}
+                                    setValidateStatus={this.setValidateStatus}
                                 />
                             </div>
                             <div className="column is-full-mobile is-half-tablet">
                                 <InputField
+                                    ref={this.collectInputs}
                                     fieldClass={''}
                                     controlClass={'has-icons-left'}
                                     name="password"
@@ -74,11 +78,9 @@ export default class Login extends React.Component<Props, State> {
                                     PreIcon={Icons.Lock}
                                     value={this.state.password}
                                     rules={[Rules.Required]}
-                                    handleChange={e =>
-                                        this.handleInputChange(e)
-                                    }
+                                    handleChange={this.handleInputChange}
                                     handleKeyUp={this.handleKeyUp}
-                                    setValidateStatus={this.checkValidateStatus}
+                                    setValidateStatus={this.setValidateStatus}
                                 />
                             </div>
                             <div className="column">
@@ -110,6 +112,10 @@ export default class Login extends React.Component<Props, State> {
         );
     }
 
+    collectInputs = (input: InputField) => {
+        this.inputRefs = [...this.inputRefs, input];
+    };
+
     handleInputChange: React.ChangeEventHandler<HTMLInputElement> = event => {
         const target = event.target;
         this.setState(() => ({
@@ -119,12 +125,17 @@ export default class Login extends React.Component<Props, State> {
 
     handleKeyUp: React.KeyboardEventHandler<HTMLInputElement> = e => {
         if (e.key === 'Enter') {
-            this.props.doLogin(this.state);
+            this.beforeLogin();
         }
     };
 
-    beforeLogin = (e?: React.MouseEvent<HTMLButtonElement>): void => {
-        if (this.state.hasError) {
+    beforeLogin = () => {
+        // do validating
+        const isValid = this.inputRefs.every(input => {
+            return input.checkIsValid();
+        });
+        this.setState({ hasError: !isValid });
+        if (!isValid) {
             Notification.error('Please check all error inputs!');
             return;
         }
@@ -136,7 +147,7 @@ export default class Login extends React.Component<Props, State> {
         doLogin(this.state);
     };
 
-    checkValidateStatus = hasError => {
-        this.setState({ hasError });
+    setValidateStatus = isValid => {
+        this.setState({ hasError: !isValid });
     };
 }

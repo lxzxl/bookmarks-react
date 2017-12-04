@@ -28,7 +28,8 @@ interface Props extends InputProps {
     handleChange: React.ChangeEventHandler<HTMLInputElement>;
     handleKeyUp?: React.KeyboardEventHandler<HTMLInputElement>;
 
-    setValidateStatus?(hasError: boolean): void;
+    triggerValidate?: boolean;
+    setValidateStatus?(isValid: boolean): void;
 }
 
 interface State {
@@ -47,17 +48,16 @@ export class InputField extends React.Component<Props, State> {
         this.isRequired = rules.indexOf(Rules.Required) > -1;
     }
 
-    componentDidMount() {
-        this.validate(this.props.value);
-    }
-
-    validate(value: string) {
-        if (this.isRequired) {
-            this.setState({ hasError: !value });
+    checkIsValid(): boolean {
+        const value = this.props.value;
+        let isValid = true;
+        if (this.isRequired && !value) {
+            isValid = false;
         }
-        if (this.props.setValidateStatus) {
-            this.props.setValidateStatus(!value);
-        }
+        this.setState({
+            hasError: !isValid
+        });
+        return isValid;
     }
 
     render() {
@@ -96,15 +96,22 @@ export class InputField extends React.Component<Props, State> {
     }
 
     handleChange: React.ChangeEventHandler<HTMLInputElement> = event => {
-        this.validate(event.target.value);
         if (this.props.handleChange) {
             this.props.handleChange(event);
+        }
+
+        if (this.props.setValidateStatus) {
+            this.props.setValidateStatus(this.checkIsValid());
         }
     };
 
     handleKeyUp: React.KeyboardEventHandler<HTMLInputElement> = event => {
         if (this.props.handleKeyUp) {
             this.props.handleKeyUp(event);
+        }
+        this.checkIsValid();
+        if (this.props.setValidateStatus) {
+            this.props.setValidateStatus(this.checkIsValid());
         }
     };
 }
