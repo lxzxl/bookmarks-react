@@ -85,8 +85,7 @@
     },
     "globals": {
       "ts-jest": {
-        "tsConfigFile":
-          "/Users/steven/MyProjects/Github/bookmarks-react/tsconfig.test.json"
+        "tsConfigFile": "tsconfig.test.json"
       }
     }
   },
