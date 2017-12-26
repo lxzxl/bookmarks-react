@@ -2,8 +2,12 @@
 
 > A bookmark collection page.
 
-- Frontend is based on React.js and Bulma.css;
-- Backend is based on wilddog service (BaaS);
+* Frontend is based on React.js and Bulma.css;
+* Backend is based on wilddog service (BaaS);
+
+## Screenshot
+
+![screenshot](./screenshot.jpg)
 
 ##Steps to deploy the site:
 
@@ -26,10 +30,9 @@
 
 p.s. I think firebase has similar configuration.
 
-
 ### 3. Build Setup
 
-``` bash
+```bash
 # install dependencies
 npm install
 
@@ -42,8 +45,8 @@ npm run build
 
 ### 4. Deploy to git pages.
 
-- If you are using `<username>.github.io`, just add all files under build/ to you `<username>.github.io` repo.
-- If you want to attach the site to a sub path, then change `assetsPublicPath` in `config.js` to `/<your-repo-name>/` and rebuild.
+* If you are using `<username>.github.io`, just add all files under build/ to you `<username>.github.io` repo.
+* If you want to attach the site to a sub path, then change `assetsPublicPath` in `config.js` to `/<your-repo-name>/` and rebuild.
 
 ##License
 [MIT License](LICENSE)
