@@ -9,7 +9,7 @@
 
 ![screenshot](./screenshot.jpg)
 
-##Steps to deploy the site:
+## Steps to deploy the site:
 
 ### 1. register a [Wilddog](https://www.wilddog.com/) service.
 
