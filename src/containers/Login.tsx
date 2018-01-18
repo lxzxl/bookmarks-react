@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as Icons from 'react-feather';
 import clone from 'lodash/clone';
-import Notification from '../components/Notification';
+import Notification from 'react-bulma-notification';
 import { Rules, InputField } from '../components/InputField';
 
 interface Account {

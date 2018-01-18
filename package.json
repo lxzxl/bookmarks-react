@@ -1,5 +1,5 @@
 {
-  "name": "my-app",
+  "name": "bookmark-react",
   "version": "0.1.0",
   "dependencies": {
     "@types/jest": "^20.0.7",
@@ -11,6 +11,7 @@
     "lodash": "^4.17.4",
     "rc-notification": "^2.0.6",
     "react": "^15.6.1",
+    "react-bulma-notification": "^0.1.2",
     "react-dom": "^15.6.1",
     "react-feather": "^1.0.7",
     "wilddog": "^2.5.15"
@@ -55,17 +56,26 @@
     "whatwg-fetch": "2.0.3"
   },
   "scripts": {
-    "start-js": "node scripts/start.js",
-    "start": "node start-js",
+    "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom"
   },
   "jest": {
     "mapCoverage": true,
-    "collectCoverageFrom": ["src/**/*.{js,jsx,ts,tsx}"],
-    "setupFiles": ["<rootDir>/config/polyfills.js"],
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}"
+    ],
+    "setupFiles": [
+      "<rootDir>/config/polyfills.js"
+    ],
     "setupTestFrameworkScriptFile": "<rootDir>/src/setupTests.ts",
-    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json"],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json"
+    ],
     "testMatch": [
       "<rootDir>/src/**/__tests__/**/*.ts?(x)",
       "<rootDir>/src/**/?(*.)(spec|test).ts?(x)"
@@ -90,7 +100,9 @@
     }
   },
   "babel": {
-    "presets": ["react-app"]
+    "presets": [
+      "react-app"
+    ]
   },
   "eslintConfig": {
     "extends": "react-app"

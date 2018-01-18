@@ -3,7 +3,7 @@ import * as Icons from 'react-feather';
 import clone from 'lodash/clone';
 import {CollectionsApi} from '../api/index';
 import Actions, {ActionType} from '../components/Actions';
-import Notification from '../components/Notification';
+import Notification from 'react-bulma-notification';
 import Bookmark from './Bookmark';
 import {show as showConfirm} from '../components/Confirm';
 import {show as createBookmarkModal} from './BookmarkModal';

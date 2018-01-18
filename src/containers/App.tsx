@@ -2,7 +2,7 @@ import * as React from 'react';
 import wilddog from 'wilddog';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import Notification from '../components/Notification';
+import Notification from 'react-bulma-notification';
 import Main from './Main';
 import Login from './Login';
 
@@ -27,6 +27,7 @@ class App extends React.Component<{}, State> {
             CollectionsApi.setRef();
             this.setState({isLogin: !!user});
         });
+        Notification.error('test', {duration: 0});
     }
 
     componentWillUnmount() {

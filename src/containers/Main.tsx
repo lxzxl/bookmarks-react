@@ -1,8 +1,8 @@
 import * as React from 'react';
+import Notification from 'react-bulma-notification';
 import {CollectionsApi} from '../api';
 import Collection from './Collection';
 import RoundAdd from '../components/RoundAdd';
-import Notification from '../components/Notification';
 
 interface Props {
 }
