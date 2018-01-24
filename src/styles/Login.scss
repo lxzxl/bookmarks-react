@@ -1,7 +1,6 @@
 .Login {
   min-height: 100vh;
   background: url(../images/visitor.jpg) no-repeat fixed 40% 100%;
-
   .modal-background {
     background-color: rgba(10, 10, 10, 0.66);
   }
@@ -13,6 +12,42 @@
     margin: 0;
     padding: 2rem;
     background-color: white;
+    .loading {
+      content: "";
+      z-index: 5;
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      background-color: rgba(0, 0, 0, 0.6);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      .loading_bar {
+        position: relative;
+        width: 20rem;
+        &::after {
+          display: block;
+          height: 1rem;
+          overflow: hidden;
+          padding: 0;
+          width: 200%;
+          content: "";
+          background-size: 2rem 1rem;
+          background-image: linear-gradient(45deg, white 0%, white 33%, #00d1b2 33%, #00d1b2 66%, white 66%);
+          animation: slide 3s linear infinite;
+        }
+      }
+      @keyframes slide {
+        from {
+          transform: translateX(-20rem);
+        }
+        to {
+          transform: translateX(0);
+        }
+      }
+    }
   }
   .login.button {
     width: 100%;
