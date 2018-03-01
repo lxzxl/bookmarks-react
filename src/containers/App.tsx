@@ -62,6 +62,7 @@ class App extends React.Component<{}, State> {
       Notification.success('Welcome, you are logged in!');
     } catch (err) {
       Notification.error(err.message);
+      this.setState({ isLoading: false });
     }
   };
 
